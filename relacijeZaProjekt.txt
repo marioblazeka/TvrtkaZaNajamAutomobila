@@ -1,4 +1,4 @@
-CREATE TABLE najam_vozila;
+CREATE DATABASE najam_vozila;
 
 USE najam_vozila;
 
