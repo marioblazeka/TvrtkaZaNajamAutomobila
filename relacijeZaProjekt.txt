@@ -10,7 +10,6 @@ CREATE TABLE klijent (
     id_kontakt_klijent INT, 
     id_pravna_osoba INT,
     PRIMARY KEY (id),
-    FOREIGN KEY (id_kontakt_klijent) REFERENCES kontakt (id)
 );
 
 CREATE TABLE zaposlenik (
@@ -18,13 +17,16 @@ CREATE TABLE zaposlenik (
     id_nadredeni_zaposlenik MEDIUMINT, 
     ime VARCHAR (30), 
     prezime VARCHAR (30), 
-    identifikacijski_broj VARCHAR (15), 
+    identifikacijski_broj VARCHAR (15),
+    drzava_radno_mjesto VARCHAR (47),
+    grad_radno_mjesto VARCHAR (100),
+    adresa_radno_mjesto VARCHAR (100),
+    spol CHAR (1),
+    broj_telefona VARCHAR (20),
+    broj_mobitela VARCHAR (20),
+    email VARCHAR (320),
     id_zanimanje SMALLINT, 
-    id_kontakt INT, 
-    id_grad SMALLINT,
     PRIMARY KEY (id),
-    FOREIGN KEY (id_kontakt) REFERENCES kontakt (id),
-    FOREIGN KEY (id_grad) REFERENCES grad (id),
     FOREIGN KEY (id_zanimanje) REFERENCES zanimanje (id)
 );
 
@@ -35,12 +37,14 @@ CREATE TABLE zanimanje (
     PRIMARY KEY (id),
 );
 
-CREATE TABLE kontakt (
+CREATE TABLE kontakt_klijenta (
     id INT NOT NULL, 
     email VARCHAR (320), 
     broj_mobitela VARCHAR (20), 
     broj_telefona VARCHAR (20),
+    id_klijent INT,
     PRIMARY KEY (id),
+    FOREIGN KEY id_klijent REFERENCES klijent (id)
 );
 
 CREATE TABLE prihod (
@@ -121,20 +125,21 @@ CREATE TABLE pravna_osoba (
     id MEDIUMINT NOT NULL, 
     ime VARCHAR (100), 
     identifikacijski_broj VARCHAR (25),
-    id_kontakt_pravna_osoba INT, 
-    id_grad_sjediste INT,
+    id_kontakt_pravna_osoba INT,
+    drzava_sjediste VARCHAR (47),
+    grad_sjediste VARCHAR (100),
+    adresa_sjediste VARCHAR (100),
     PRIMARY KEY (id),
-    FOREIGN KEY (id_kontakt_pravna_osoba) REFERENCES kontakt (id),
-    FOREIGN KEY (id_grad_sjediste) REFERENCES grad (id)
 );
 
-CREATE TABLE grad (
-    id SMALLINT NOT NULL, 
-    ime_grada VARCHAR (100), 
-    zip_kod VARCHAR (10), 
-    drzava VARCHAR (50),
-    adresa VARCHAR (100),
+CREATE TABLE kontakt_pravne_osobe (
+    id INT NOT NULL, 
+    email VARCHAR (320), 
+    broj_mobitela VARCHAR (20), 
+    broj_telefona VARCHAR (20),
+    id_pravna_osoba MEDIUMINT,
     PRIMARY KEY (id),
+    FOREIGN KEY id_pravna_osoba REFERENCES pravna_osoba (id)
 );
 
 CREATE TABLE najam_vozila (
