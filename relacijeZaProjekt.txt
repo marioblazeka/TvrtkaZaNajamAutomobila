@@ -144,6 +144,7 @@ CREATE TABLE kontakt_pravne_osobe (
     email VARCHAR (320), 
     broj_mobitela VARCHAR (20), 
     broj_telefona VARCHAR (20),
+    opis VARCHAR (100),
     id_pravna_osoba MEDIUMINT,
     PRIMARY KEY (id),
     FOREIGN KEY id_pravna_osoba REFERENCES pravna_osoba (id)
