@@ -300,22 +300,15 @@ CREATE TABLE naknada_stete (
     FOREIGN KEY (id_osiguranje) REFERENCES osiguranje (id)
 );
 
-CREATE TABLE tip_punjenja (
-    id TINYINT PRIMARY KEY,
-    naziv_tipa VARCHAR(40),
-    PRIMARY KEY (id)
-);
-
 CREATE TABLE punjenje (
     id BIGINT NOT NULL,
     id_transakcija_punjenje BIGINT,
     id_vozilo MEDIUMINT,
-    id_tip_punjenja TINYINT,
     kolicina NUMERIC(7, 3),
+    tip_punjenja VARCHAR (10),
     PRIMARY KEY (id),
     FOREIGN KEY (id_transakcija_punjenje) REFERENCES transakcija (id),
-    FOREIGN KEY (id_vozilo) REFERENCES vozilo (id),
-    FOREIGN KEY (id_tip_punjenja) REFERENCES tip_punjenja (id)
+    FOREIGN KEY (id_vozilo) REFERENCES vozilo (id)
 );
 
 CREATE TABLE odrzavanje (
