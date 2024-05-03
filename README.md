@@ -1,4 +1,11 @@
-# TvrtkaZaNajamAutomobila
-Iznajmljivač automobila želi pratiti popis automobila koje su na stanju ili trenutno iznajmljeni. Za svaki automobil se prati oznaka, vrsta (limuzina, SUV, …), datum kupnje i cijena najma.
-Automobile iznajmljuje zaposlenik(ci) za kojeg se prati ime, prezime i datum zaposlenja. Kako bi se osiguralo da će korisnik vratiti automobil nakon isteka najma, za njega se prati ime, prezime i oib. Za svaki najam automobila se dodatno prati kada je on započeo i završio, te koji je automobil izdan sa kojom opremom, dodatnim popustima , osiguranjem... u tu svrhu. Prilikom najma automobila korisnik ima mogućnost odabira dodatne opreme (npr. dječja sjedalica, GPS i sl.), za koju se prati odabrana količina. Za svaku opremu prati se naziv i cijena. Automobil je moguće i rezervrati sa vremenom rezervacije i pologom i to je nova relacija jer nije najam,  Iznajmljivač automobila nudi različite vrste osiguranja kao što su osiguranje od nezgode, loma stakla, osiguranje vozila i dodatno osiguranje putnika. Za svako osiguranje se prati vrsta i cijena.
-Iznajmljivač također surađuje sa mrežom partnera kod kojih je moguće vratiti automobil. Za svakog partnera se prati naziv, adresa i kontakt.
+_______________________________________________________________________________________________________________________________________________________________________________________________________________
+
+HR:
+Ovaj je projekt napravljen u sklopu fakultetskog kolegija Baze podataka 1, koji se odrzava na Fakultetu informatike u Puli, a na njemu su radili Mario Blažeka, Sebastijan Dominis, Marinela Blažek, Mirela Ražnjević Moravčić i Vedrana Plenča. Stvorena je ponesto slozena baza podataka za fiktivnu firmu koja se bavi najmom vozila i dodatne opreme. U dokumentaciji se nalaze detaljan opis svega sto je napravljeno u projektu.
+
+_______________________________________________________________________________________________________________________________________________________________________________________________________________
+
+EN:
+This project was made as a part of a university course Database 1, which is held at the Faculty of Informatics in Pula. Mario Blažeka, Sebastijan Dominis, Marinela Blažek, Mirela Ražnjević Moravčić and Vedrana Plenča worked on it. A somewhat complex database for an imaginary company was created, whereby the company deals with renting vehicles and additional equipment. The documentation contains a detailed description of everything done in this project. It is written in Croatian language.
+
+________________________________________________________________________________________________________________________________________________________________________________________________________________
