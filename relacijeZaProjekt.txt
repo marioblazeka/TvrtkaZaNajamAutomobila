@@ -190,7 +190,6 @@ CREATE TABLE automobil (
     id_vozilo MEDIUMINT,
     duljina NUMERIC (3, 2),
     PRIMARY KEY (id),
-    FOREIGN KEY (id_slike_automobila) REFERENCES slika_automobila (id),
     FOREIGN KEY (id_serija_auto_kamion) REFERENCES serija_auto_kamion (id),
     FOREIGN KEY id_vozilo REFERENCES vozilo (id)
 );
@@ -202,7 +201,6 @@ CREATE TABLE motocikl (
     id_vozilo MEDIUMINT,
     duljina NUMERIC (3, 2),
     PRIMARY KEY (id),
-    FOREIGN KEY (id_slike_motocikla) REFERENCES slika_motocikla (id),
     FOREIGN KEY (id_serija_motocikl) REFERENCES serija_motocikl (id),
     FOREIGN KEY id_vozilo REFERENCES vozilo (id)
 );
@@ -216,7 +214,6 @@ CREATE TABLE kamion (
     visina NUMERIC (3, 2),
     nosivost NUMERIC (5, 2),
     PRIMARY KEY (id),
-    FOREIGN KEY (id_slike_kamiona) REFERENCES slika_kamiona (id),
     FOREIGN KEY (id_serija_auto_kamion) REFERENCES serija_auto_kamion (id),
     FOREIGN KEY id_vozilo REFERENCES vozilo (id)
 );
