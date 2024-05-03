@@ -48,17 +48,23 @@ CREATE TABLE kontakt_klijenta (
 );
 
 CREATE TABLE prihod (
-    id INT NOT NULL, 
-    id_zaposlenik MEDIUMINT, 
-    tip_prihoda VARCHAR (25), 
-    datum DATE,
+    id TINYINT NOT NULL, 
     opis VARCHAR,
-    id_transakcija_prihoda INT,
-    PRIMARY KEY (id),
-    FOREIGN KEY (id_zaposlenik) REFERENCES zaposlenik (id),
-    FOREIGN KEY (id_transakcija_prihoda) REFERENCES transakcija (id)
+    tip_prihoda VARCHAR (25),
+    PRIMARY KEY (id)
 );
 
+CREATE TABLE prihod_za_zaposlenika (
+    id INT NOT NULL,
+    datum DATE,
+    id_zaposlenik MEDIUMINT, 
+    id_transakcija_prihoda INT,
+    id_prihod TINYINT,
+    PRIMARY KEY (id),
+    FOREIGN KEY (id_zaposlenik) REFERENCES zaposlenik (id),
+    FOREIGN KEY (id_transakcija_prihoda) REFERENCES transakcija (id),
+    FOREIGN KEY (id_prihod) REFERENCES prihod (id)
+);
 CREATE TABLE popust (
     id TINYINT NOT NULL, 
     tip_popusta VARCHAR 40,
