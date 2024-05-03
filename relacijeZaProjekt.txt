@@ -284,20 +284,20 @@ CREATE TABLE steta (
     id INT NOT NULL, 
     tip VARCHAR (7),
     opis VARCHAR (1000),
-    id_popravak INT,
-    PRIMARY KEY (id),
-    FOREIGN KEY (id_naknada_stete) REFERENCES naknada_stete (id)
+    PRIMARY KEY (id)
 );
 
 CREATE TABLE naknada_stete (
-    id INT NOT NULL, 
-    id_transakcija BIGINT, 
+    id INT NOT NULL,  
     datum_pocetka DATE, 
     datum_zavrsetka DATE, 
+    id_transakcija BIGINT,
     id_osiguranje INT,
+    id_steta INT,
     PRIMARY KEY (id),
     FOREIGN KEY (id_transakcija) REFERENCES transakcija (id),
-    FOREIGN KEY (id_osiguranje) REFERENCES osiguranje (id),
+    FOREIGN KEY (id_steta) REFERENCES steta (id),
+    FOREIGN KEY (id_osiguranje) REFERENCES osiguranje (id)
 );
 
 CREATE TABLE tip_punjenja (
