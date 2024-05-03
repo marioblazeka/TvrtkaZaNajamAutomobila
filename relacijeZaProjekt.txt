@@ -65,6 +65,7 @@ CREATE TABLE prihod_za_zaposlenika (
     FOREIGN KEY (id_transakcija_prihoda) REFERENCES transakcija (id),
     FOREIGN KEY (id_prihod) REFERENCES prihod (id)
 );
+
 CREATE TABLE popust (
     id TINYINT NOT NULL, 
     tip_popusta VARCHAR 40,
