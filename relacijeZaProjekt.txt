@@ -1,0 +1,357 @@
+CREATE TABLE najam_vozila;
+
+USE najam_vozila;
+
+CREATE TABLE klijent (
+    id INT NOT NULL,
+    ime VARCHAR (30), 
+    prezime VARCHAR (30), 
+    identifikacijski_broj VARCHAR (15), 
+    id_kontakt_klijent INT, 
+    id_pravna_osoba INT,
+    PRIMARY KEY (id),
+    FOREIGN KEY (id_kontakt_klijent) REFERENCES kontakt (id)
+);
+
+CREATE TABLE zaposlenik (
+    id INT NOT NULL, 
+    id_nadredeni_zaposlenik INT, 
+    ime VARCHAR (30), 
+    prezime VARCHAR (30), 
+    identifikacijski_broj VARCHAR (15), 
+    id_zanimanje SMALLINT, 
+    id_kontakt INT, 
+    id_grad INT,
+    PRIMARY KEY (id),
+    FOREIGN KEY (id_kontakt) REFERENCES kontakt (id),
+    FOREIGN KEY (id_grad) REFERENCES lokacija_radnog_mjesta (id),
+    FOREIGN KEY (id_zanimanje) REFERENCES zanimanje (id)
+);
+
+CREATE TABLE zanimanje (
+    id SMALLINT NOT NULL,
+    opis_zanimanja VARCHAR (1000),
+    odjel VARCHAR (50),
+    PRIMARY KEY (id),
+);
+
+CREATE TABLE kontakt (
+    id INT NOT NULL, 
+    email VARCHAR (320), 
+    broj_mobitela VARCHAR (20), 
+    broj_telefona VARCHAR (20),
+    PRIMARY KEY (id),
+);
+
+CREATE TABLE prihod (
+    id INT NOT NULL, 
+    id_zaposlenik INT, 
+    tip_prihoda VARCHAR (25), 
+    datum DATE,
+    opis VARCHAR,
+    id_transakcija_prihoda INT,
+    PRIMARY KEY (id),
+    FOREIGN KEY (id_zaposlenik) REFERENCES zaposlenik (id),
+    FOREIGN KEY (id_transakcija_prihoda) REFERENCES transakcija (id)
+);
+
+CREATE TABLE popust (
+    id INT NOT NULL, 
+    tip_popusta VARCHAR 40,
+    PRIMARY KEY (id),
+);
+
+CREATE TABLE popust_za_klijenta (
+    id INT NOT NULL,
+    datum_primitka DATE, 
+    datum_koristenja DATE,
+    status VARCHAR (10), 
+    PRIMARY KEY (id),
+    FOREIGN KEY (id_klijent) REFERENCES klijent (id)
+    FOREIGN KEY (id_popust) REFERENCES popust (id)
+);
+
+CREATE TABLE poslovni_trosak (
+    id BIGINT NOT NULL, 
+    id_transakcija_poslovnog_troska BIGINT, 
+    svrha VARCHAR (40), 
+    opis VARCHAR (500),
+    PRIMARY KEY (id),
+    FOREIGN KEY (id_transakcija_poslovnog_troska) REFERENCES transakcija (id)
+);
+
+CREATE TABLE transakcija (
+    id BIGINT NOT NULL, 
+    datum DATE, 
+    iznos NUMERIC (12,2), 
+    broj_racuna VARCHAR (7), 
+    placeno NUMERIC (12,2),
+    PRIMARY KEY (id),
+);
+
+CREATE TABLE gotovinsko_placanje (
+    id BIGINT NOT NULL, 
+    id_transakcija_gotovina BIGINT,
+    PRIMARY KEY (id),
+    FOREIGN KEY (id_transakcija_gotovina) REFERENCES transakcija (id)
+);
+
+CREATE TABLE karticno_placanje (
+    id BIGINT NOT NULL, 
+    tip_kartice VARCHAR (20), 
+    id_pravna_osoba_banka INT, 
+    id_transakcija_kartica BIGINT,
+    PRIMARY KEY (id),
+    FOREIGN KEY (id_pravna_osoba_banka) REFERENCES pravna_osoba (id),
+    FOREIGN KEY (id_transakcija_kartica) REFERENCES transakcija (id)
+);
+
+CREATE TABLE kriptovalutno_placanje (
+    id BIGINT NOT NULL, 
+    kriptovaluta VARCHAR (50), 
+    broj_kripto_novcanika VARCHAR (60), 
+    id_transakcija_kripto BIGINT,
+    PRIMARY KEY (id),
+    FOREIGN KEY (id_transakcija_kripto) REFERENCES transakcija (id)
+);
+
+CREATE TABLE pravna_osoba (
+    id INT NOT NULL, 
+    ime VARCHAR (100), 
+    identifikacijski_broj VARCHAR (25),
+    id_kontakt_pravna_osoba INT, 
+    id_grad_sjediste INT,
+    PRIMARY KEY (id),
+    FOREIGN KEY (id_kontakt_pravna_osoba) REFERENCES kontakt (id),
+    FOREIGN KEY (id_grad_sjediste) REFERENCES grad (id)
+);
+
+CREATE TABLE grad (
+    id INT NOT NULL, 
+    ime_grada VARCHAR (100), 
+    zip_kod VARCHAR (10), 
+    drzava VARCHAR (50),
+    adresa VARCHAR (100),
+    PRIMARY KEY (id),
+);
+
+CREATE TABLE najam_vozila (
+    id BIGINT NOT NULL, 
+    id_transakcija_najam BIGINT, 
+    id_vozilo_najam INT, 
+    id_klijent_najam INT, 
+    id_zaposlenik_najam INT, 
+    datum_pocetka DATE, 
+    datum_zavrsetka DATE, 
+    pocetna_kilometraza NUMERIC (10, 2), 
+    zavrsna_kilometraza NUMERIC (10, 2), 
+    status VARCHAR (15),
+    PRIMARY KEY (id),
+    FOREIGN KEY (id_transakcija_najam) REFERENCES transakcija (id),
+    FOREIGN KEY (id_vozilo_najam) REFERENCES vozilo (id),
+    FOREIGN KEY (id_klijent_najam) REFERENCES klijent (id),
+    FOREIGN KEY (id_zaposlenik_najam) REFERENCES zaposlenik (id)
+);
+
+CREATE TABLE vozilo (
+    id INT NOT NULL,
+    godina_proizvodnje CHAR(4), 
+    registracijska_tablica VARCHAR (15), 
+    tip_punjenja VARCHAR (10),
+    PRIMARY KEY (id),
+    FOREIGN KEY (id_osiguranje) REFERENCES osiguranje (id)
+);
+
+CREATE TABLE automobil (
+    id INT NOT NULL, 
+    id_slike_automobila INT,
+    id_serija_auto_kamion SMALLINT,
+    id_vozilo INT,
+    duljina NUMERIC (3, 2),
+    PRIMARY KEY (id),
+    FOREIGN KEY (id_slike_automobila) REFERENCES slike_automobila (id),
+    FOREIGN KEY (id_serija_auto_kamion) REFERENCES serija_auto_kamion (id),
+    FOREIGN KEY id_vozilo REFERENCES vozilo (id)
+);
+
+CREATE TABLE motocikl (
+    id INT NOT NULL, 
+    id_slike_motocikla INT,
+    id_serija_motocikl SMALLINT,
+    id_vozilo INT,
+    duljina NUMERIC (3, 2),
+    PRIMARY KEY (id),
+    FOREIGN KEY (id_slike_motocikla) REFERENCES slike_motocikla (id),
+    FOREIGN KEY (id_serija_motocikl) REFERENCES serija_motocikl (id),
+    FOREIGN KEY id_vozilo REFERENCES vozilo (id)
+);
+
+CREATE TABLE kamion (
+    id INT NOT NULL, 
+    id_slike_kamiona INT,
+    id_serija_auto_kamion SMALLINT,
+    id_vozilo INT,
+    duljina NUMERIC (4, 2),
+    visina NUMERIC (3, 2),
+    nosivost NUMERIC (5, 2),
+    PRIMARY KEY (id),
+    FOREIGN KEY (id_slike_kamiona) REFERENCES slike_kamiona (id),
+    FOREIGN KEY (id_serija_auto_kamion) REFERENCES serija_auto_kamion (id),
+    FOREIGN KEY id_vozilo REFERENCES vozilo (id)
+);
+
+CREATE TABLE serija_auto_kamion (
+    id SMALLINT NOT NULL, 
+    ime VARCHAR (100), 
+    proizvodac VARCHAR (40), 
+    najveca_brzina SMALLINT, 
+    konjska_snaga SMALLINT, 
+    tip_mjenjaca VARCHAR (10), 
+    broj_vrata TINYINT,
+    PRIMARY KEY (id),
+);
+
+CREATE TABLE serija_motocikl (
+    id SMALLINT NOT NULL,
+    ime VARCHAR (100),
+    proizvodac VARCHAR (40),
+    najveca_brzina SMALLINT,
+    konjska_snaga SMALLINT,
+    broj_sjedala CHAR(1),
+    PRIMARY KEY (id),
+);
+
+CREATE TABLE slike_automobila (
+    id INT NOT NULL, 
+    id_automobil INT, 
+    slika VARBINARY(MAX),
+    pozicija VARCHAR (30),
+    PRIMARY KEY (id),
+    FOREIGN KEY (id_automobil) REFERENCES automobil (id)
+);
+
+CREATE TABLE slike_kamiona (
+    id INT NOT NULL, 
+    id_kamion INT, 
+    slika VARBINARY(MAX),
+    pozicija VARCHAR (30),
+    PRIMARY KEY (id),
+    FOREIGN KEY (id_kamion) REFERENCES kamion (id)
+);
+
+CREATE TABLE slike_motora (
+    id INT NOT NULL, 
+    id_motocikl INT, 
+    slika VARBINARY(MAX),
+    pozicija VARCHAR (30),
+    PRIMARY KEY (id),
+    FOREIGN KEY (id_motocikl) REFERENCES motocikl (id)
+);
+
+CREATE TABLE osiguranje (
+    id INT NOT NULL, 
+    id_osiguravacka_kuca INT, 
+    id_vozilo INT, 
+    id_transakcija BIGINT, 
+    datum_pocetka DATE, 
+    datum_zavrsetka DATE, 
+    tip_osiguranja VARCHAR (20),
+    PRIMARY KEY (id),
+    FOREIGN KEY (id_osiguravacka_kuca) REFERENCES pravna_osoba (id),
+    FOREIGN KEY (id_vozilo) REFERENCES vozilo (id),
+    FOREIGN KEY (id_transakcija) REFERENCES transakcija (id)
+);
+
+CREATE TABLE steta (
+    id MEDIUMINT NOT NULL, 
+    tip VARCHAR (7),
+    opis VARCHAR (1000),
+    id_popravak INT,
+    PRIMARY KEY (id),
+    FOREIGN KEY (id_naknada_stete) REFERENCES naknada_stete (id)
+);
+
+CREATE TABLE naknada_stete (
+    id INT NOT NULL, 
+    id_transakcija BIGINT, 
+    datum_pocetka DATE, 
+    datum_zavrsetka DATE, 
+    id_osiguranje INT,
+    PRIMARY KEY (id),
+    FOREIGN KEY (id_transakcija) REFERENCES transakcija (id),
+    FOREIGN KEY (id_osiguranje) REFERENCES osiguranje (id),
+);
+
+CREATE TABLE tip_punjenja (
+    id INT PRIMARY KEY,
+    naziv_tipa VARCHAR(40),
+    PRIMARY KEY (id)
+);
+
+CREATE TABLE punjenje (
+    id BIGINT NOT NULL,
+    id_transakcija_punjenje BIGINT,
+    id_vozilo INT,
+    id_tip_punjenja INT,
+    kolicina NUMERIC(7, 3),
+    PRIMARY KEY (id),
+    FOREIGN KEY (id_transakcija_punjenje) REFERENCES transakcija (id),
+    FOREIGN KEY (id_vozilo) REFERENCES vozilo (id),
+    FOREIGN KEY (id_tip_punjenja) REFERENCES tip_punjenja (id)
+);
+
+CREATE TABLE odrzavanje (
+    id BIGINT NOT NULL, 
+    tip odrzavanja VARCHAR (100), 
+    id_zaposlenik INT, 
+    id_transakcija_odrzavanje BIGINT,
+    PRIMARY KEY (id),
+    FOREIGN KEY (id_zaposlenik) REFERENCES zaposlenik (id),
+    FOREIGN KEY (id_transakcija_odrzavanje) REFERENCES transakcija (id)
+);
+
+CREATE TABLE rezervacije (
+    id INT NOT NULL, 
+    datum_rezervacije DATE, 
+    datum_potvrde DATE, 
+    id_klijent INT,
+    PRIMARY KEY (id),
+    FOREIGN KEY (id_klijent) REFERENCES klijent (id)
+);
+
+CREATE TABLE oprema (
+    id SMALLINT NOT NULL,
+    naziv VARCHAR (30),
+    opis VARCHAR (200),
+    PRIMARY KEY (id)
+);
+
+CREATE TABLE oprema_na_najmu (
+    id INT NOT NULL,
+    id_najam_vozila,
+    id_oprema,
+    PRIMARY KEY (id),
+    FOREIGN KEY (id_najam_vozila) REFERENCES najam_vozila (id),
+    FOREIGN KEY (id_oprema) REFERENCES oprema (id)
+);
+
+CREATE TABLE oprema_na_rezervaciji (
+    id INT NOT NULL,
+    id_rezervacija INT,
+    id_oprema INT,
+    PRIMARY KEY (id),
+    FOREIGN KEY (id_rezervacija) REFERENCES rezervacija (id),
+    FOREIGN KEY (id_oprema) REFERENCES oprema (id)
+)
+
+CREATE TABLE vozilo_na_rezervaciji (
+    id INT NOT NULL,
+    id_rezervacija INT,
+    id_vozilo INT,
+    PRIMARY KEY (id),
+    FOREIGN KEY (id_rezervacija) REFERENCES rezervacija (id),
+    FOREIGN KEY (id_vozilo) REFERENCES vozilo (id),
+)
+
+
+
