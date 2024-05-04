@@ -32,7 +32,7 @@ CREATE TABLE zaposlenik (
 
 CREATE TABLE zanimanje (
     id SMALLINT NOT NULL,
-    opis_zanimanja VARCHAR (1000),
+    opis_zanimanja TEXT,
     odjel VARCHAR (50),
     PRIMARY KEY (id),
 );
@@ -49,7 +49,7 @@ CREATE TABLE kontakt_klijenta (
 
 CREATE TABLE prihod (
     id TINYINT NOT NULL, 
-    opis VARCHAR,
+    opis TEXT,
     tip_prihoda VARCHAR (25),
     PRIMARY KEY (id)
 );
@@ -88,7 +88,7 @@ CREATE TABLE poslovni_trosak (
     id INT NOT NULL, 
     id_transakcija_poslovnog_troska BIGINT, 
     svrha VARCHAR (40), 
-    opis VARCHAR (500),
+    opis TEXT,
     PRIMARY KEY (id),
     FOREIGN KEY (id_transakcija_poslovnog_troska) REFERENCES transakcija (id)
 );
@@ -283,7 +283,7 @@ CREATE TABLE osiguranje (
 CREATE TABLE steta (
     id INT NOT NULL, 
     tip VARCHAR (7),
-    opis VARCHAR (1000),
+    opis TEXT,
     PRIMARY KEY (id)
 );
 
@@ -333,7 +333,7 @@ CREATE TABLE rezervacija (
 CREATE TABLE oprema (
     id SMALLINT NOT NULL,
     naziv VARCHAR (30),
-    opis VARCHAR (200),
+    opis TEXT,
     PRIMARY KEY (id)
 );
 
