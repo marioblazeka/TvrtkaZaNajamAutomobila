@@ -366,5 +366,11 @@ CREATE TABLE vozilo_na_rezervaciji (
     FOREIGN KEY (id_vozilo) REFERENCES vozilo (id),
 )
 
-
+CREATE TABLE crna_lista (
+    id SMALLINT NOT NULL,
+    id_klijent INT,
+    razlog TEXT,
+    PRIMARY KEY (id),
+    FOREIGN KEY (id_klijent) REFERENCES klijent (id)
+)
 
