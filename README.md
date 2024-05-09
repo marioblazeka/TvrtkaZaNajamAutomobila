@@ -1,7 +1,7 @@
 _______________________________________________________________________________________________________________________________________________________________________________________________________________
 
 HR:
-Ovaj je projekt napravljen u sklopu fakultetskog kolegija Baze podataka 1, koji se odrzava na Fakultetu informatike u Puli, a na njemu su radili Mario Blažeka, Sebastijan Dominis, Marinela Blažek, Mirela Ražnjević Moravčić i Vedrana Plenča. Stvorena je ponesto slozena baza podataka za fiktivnu firmu koja se bavi najmom vozila i dodatne opreme. U dokumentaciji se nalaze detaljan opis svega sto je napravljeno u projektu.
+Ovaj je projekt napravljen u sklopu fakultetskog kolegija Baze podataka 1, koji se održava na Fakultetu informatike u Puli, a na njemu su radili Mario Blažeka, Sebastijan Dominis, Marinela Blažek, Mirela Ražnjević Moravčić i Vedrana Plenča. Stvorena je ponešto složena baza podataka za fiktivnu firmu koja se bavi najmom vozila i dodatne opreme. U dokumentaciji se nalazi detaljan opis svega što je napravljeno u projektu.
 
 _______________________________________________________________________________________________________________________________________________________________________________________________________________
 
