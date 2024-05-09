@@ -6,8 +6,7 @@ CREATE TABLE klijent (
     id INT NOT NULL,
     ime VARCHAR (30), 
     prezime VARCHAR (30), 
-    identifikacijski_broj VARCHAR (13), 
-    id_kontakt_klijent INT, 
+    identifikacijski_broj VARCHAR (13),
     id_pravna_osoba INT,
     PRIMARY KEY (id),
 );
@@ -132,7 +131,6 @@ CREATE TABLE pravna_osoba (
     id MEDIUMINT NOT NULL, 
     ime VARCHAR (100), 
     identifikacijski_broj VARCHAR (25),
-    id_kontakt_pravna_osoba INT,
     drzava_sjediste VARCHAR (47),
     grad_sjediste VARCHAR (100),
     adresa_sjediste VARCHAR (100),
@@ -183,41 +181,6 @@ CREATE TABLE vozilo_na_najmu (
     FOREIGN KEY (id_vozilo) REFERENCES vozilo (id)
 )
 
-CREATE TABLE automobil (
-    id MEDIUMINT NOT NULL, 
-    id_slika_automobila INT,
-    id_serija_auto_kamion SMALLINT,
-    id_vozilo MEDIUMINT,
-    duljina NUMERIC (3, 2),
-    PRIMARY KEY (id),
-    FOREIGN KEY (id_serija_auto_kamion) REFERENCES serija_auto_kamion (id),
-    FOREIGN KEY id_vozilo REFERENCES vozilo (id)
-);
-
-CREATE TABLE motocikl (
-    id MEDIUMINT NOT NULL, 
-    id_slika_motocikla INT,
-    id_serija_motocikl SMALLINT,
-    id_vozilo MEDIUMINT,
-    duljina NUMERIC (3, 2),
-    PRIMARY KEY (id),
-    FOREIGN KEY (id_serija_motocikl) REFERENCES serija_motocikl (id),
-    FOREIGN KEY id_vozilo REFERENCES vozilo (id)
-);
-
-CREATE TABLE kamion (
-    id MEDIUMINT NOT NULL, 
-    id_slika_kamiona INT,
-    id_serija_auto_kamion SMALLINT,
-    id_vozilo MEDIUMINT,
-    duljina NUMERIC (4, 2),
-    visina NUMERIC (3, 2),
-    nosivost NUMERIC (5, 2),
-    PRIMARY KEY (id),
-    FOREIGN KEY (id_serija_auto_kamion) REFERENCES serija_auto_kamion (id),
-    FOREIGN KEY id_vozilo REFERENCES vozilo (id)
-);
-
 CREATE TABLE serija_auto_kamion (
     id SMALLINT NOT NULL, 
     ime VARCHAR (100), 
@@ -229,6 +192,16 @@ CREATE TABLE serija_auto_kamion (
     PRIMARY KEY (id),
 );
 
+CREATE TABLE automobil (
+    id MEDIUMINT NOT NULL, 
+    id_serija_auto_kamion SMALLINT,
+    id_vozilo MEDIUMINT,
+    duljina NUMERIC (3, 2),
+    PRIMARY KEY (id),
+    FOREIGN KEY (id_serija_auto_kamion) REFERENCES serija_auto_kamion (id),
+    FOREIGN KEY id_vozilo REFERENCES vozilo (id)
+);
+
 CREATE TABLE serija_motocikl (
     id SMALLINT NOT NULL,
     ime VARCHAR (100),
@@ -237,6 +210,28 @@ CREATE TABLE serija_motocikl (
     konjska_snaga SMALLINT,
     broj_sjedala CHAR(1),
     PRIMARY KEY (id),
+);
+
+CREATE TABLE motocikl (
+    id MEDIUMINT NOT NULL, 
+    id_serija_motocikl SMALLINT,
+    id_vozilo MEDIUMINT,
+    duljina NUMERIC (3, 2),
+    PRIMARY KEY (id),
+    FOREIGN KEY (id_serija_motocikl) REFERENCES serija_motocikl (id),
+    FOREIGN KEY id_vozilo REFERENCES vozilo (id)
+);
+
+CREATE TABLE kamion (
+    id MEDIUMINT NOT NULL, 
+    id_serija_auto_kamion SMALLINT,
+    id_vozilo MEDIUMINT,
+    duljina NUMERIC (4, 2),
+    visina NUMERIC (3, 2),
+    nosivost NUMERIC (5, 2),
+    PRIMARY KEY (id),
+    FOREIGN KEY (id_serija_auto_kamion) REFERENCES serija_auto_kamion (id),
+    FOREIGN KEY id_vozilo REFERENCES vozilo (id)
 );
 
 CREATE TABLE slika_automobila (
