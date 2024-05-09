@@ -54,7 +54,7 @@ CREATE TABLE kontakt_klijenta (
     broj_telefona VARCHAR (20),
     id_klijent INT,
     PRIMARY KEY (id),
-    FOREIGN KEY id_klijent REFERENCES klijent (id)
+    FOREIGN KEY id_klijent REFERENCES klijent (id) ON DELETE CASCADE
 );
 
 CREATE TABLE prihod (
@@ -80,8 +80,8 @@ CREATE TABLE prihod_za_zaposlenika (
     id_transakcija_prihoda INT,
     id_prihod TINYINT,
     PRIMARY KEY (id),
-    FOREIGN KEY (id_zaposlenik) REFERENCES zaposlenik (id),
-    FOREIGN KEY (id_transakcija_prihoda) REFERENCES transakcija (id),
+    FOREIGN KEY (id_zaposlenik) REFERENCES zaposlenik (id) ON DELETE CASCADE,
+    FOREIGN KEY (id_transakcija_prihoda) REFERENCES transakcija (id) ON DELETE CASCADE,
     FOREIGN KEY (id_prihod) REFERENCES prihod (id)
 );
 
@@ -99,7 +99,7 @@ CREATE TABLE popust_za_klijenta (
     id_klijent INT,
     id_popust TINYINT,
     PRIMARY KEY (id),
-    FOREIGN KEY (id_klijent) REFERENCES klijent (id)
+    FOREIGN KEY (id_klijent) REFERENCES klijent (id) ON DELETE CASCADE,
     FOREIGN KEY (id_popust) REFERENCES popust (id)
 );
 
@@ -109,14 +109,14 @@ CREATE TABLE poslovni_trosak (
     svrha VARCHAR (40), 
     opis TEXT,
     PRIMARY KEY (id),
-    FOREIGN KEY (id_transakcija_poslovnog_troska) REFERENCES transakcija (id)
+    FOREIGN KEY (id_transakcija_poslovnog_troska) REFERENCES transakcija (id) ON DELETE CASCADE
 );
 
 CREATE TABLE gotovinsko_placanje (
     id BIGINT NOT NULL, 
     id_transakcija_gotovina BIGINT,
     PRIMARY KEY (id),
-    FOREIGN KEY (id_transakcija_gotovina) REFERENCES transakcija (id)
+    FOREIGN KEY (id_transakcija_gotovina) REFERENCES transakcija (id) ON DELETE CASCADE
 );
 
 CREATE TABLE karticno_placanje (
@@ -126,7 +126,7 @@ CREATE TABLE karticno_placanje (
     id_transakcija_kartica BIGINT,
     PRIMARY KEY (id),
     FOREIGN KEY (id_pravna_osoba_banka) REFERENCES pravna_osoba (id),
-    FOREIGN KEY (id_transakcija_kartica) REFERENCES transakcija (id)
+    FOREIGN KEY (id_transakcija_kartica) REFERENCES transakcija (id) ON DELETE CASCADE
 );
 
 CREATE TABLE kriptovalutno_placanje (
@@ -135,7 +135,7 @@ CREATE TABLE kriptovalutno_placanje (
     broj_kripto_novcanika VARCHAR (60), 
     id_transakcija_kripto BIGINT,
     PRIMARY KEY (id),
-    FOREIGN KEY (id_transakcija_kripto) REFERENCES transakcija (id)
+    FOREIGN KEY (id_transakcija_kripto) REFERENCES transakcija (id) ON DELETE CASCADE
 );
 
 CREATE TABLE kontakt_pravne_osobe (
@@ -146,7 +146,7 @@ CREATE TABLE kontakt_pravne_osobe (
     opis VARCHAR (100),
     id_pravna_osoba MEDIUMINT,
     PRIMARY KEY (id),
-    FOREIGN KEY id_pravna_osoba REFERENCES pravna_osoba (id)
+    FOREIGN KEY id_pravna_osoba REFERENCES pravna_osoba (id) ON DELETE CASCADE
 );
 
 CREATE TABLE vozilo (
@@ -169,7 +169,7 @@ CREATE TABLE najam_vozila (
     pocetna_kilometraza NUMERIC (10, 2), 
     zavrsna_kilometraza NUMERIC (10, 2), 
     PRIMARY KEY (id),
-    FOREIGN KEY (id_transakcija_najam) REFERENCES transakcija (id),
+    FOREIGN KEY (id_transakcija_najam) REFERENCES transakcija (id) ON DELETE CASCADE,
     FOREIGN KEY (id_klijent_najam) REFERENCES klijent (id),
     FOREIGN KEY (id_zaposlenik_najam) REFERENCES zaposlenik (id),
     FOREIGN KEY (id_vozilo) REFERENCES vozilo (id)
@@ -193,7 +193,7 @@ CREATE TABLE automobil (
     duljina NUMERIC (3, 2),
     PRIMARY KEY (id),
     FOREIGN KEY (id_serija_auto_kamion) REFERENCES serija_auto_kamion (id),
-    FOREIGN KEY id_vozilo REFERENCES vozilo (id)
+    FOREIGN KEY id_vozilo REFERENCES vozilo (id) ON DELETE CASCADE
 );
 
 CREATE TABLE serija_motocikl (
@@ -213,7 +213,7 @@ CREATE TABLE motocikl (
     duljina NUMERIC (3, 2),
     PRIMARY KEY (id),
     FOREIGN KEY (id_serija_motocikl) REFERENCES serija_motocikl (id),
-    FOREIGN KEY id_vozilo REFERENCES vozilo (id)
+    FOREIGN KEY id_vozilo REFERENCES vozilo (id) ON DELETE CASCADE
 );
 
 CREATE TABLE kamion (
@@ -225,7 +225,7 @@ CREATE TABLE kamion (
     nosivost NUMERIC (5, 2),
     PRIMARY KEY (id),
     FOREIGN KEY (id_serija_auto_kamion) REFERENCES serija_auto_kamion (id),
-    FOREIGN KEY id_vozilo REFERENCES vozilo (id)
+    FOREIGN KEY id_vozilo REFERENCES vozilo (id) ON DELETE CASCADE
 );
 
 CREATE TABLE slika_automobila (
@@ -234,7 +234,7 @@ CREATE TABLE slika_automobila (
     slika VARBINARY(MAX),
     pozicija VARCHAR (30),
     PRIMARY KEY (id),
-    FOREIGN KEY (id_automobil) REFERENCES automobil (id)
+    FOREIGN KEY (id_automobil) REFERENCES automobil (id) ON DELETE CASCADE
 );
 
 CREATE TABLE slika_kamiona (
@@ -243,7 +243,7 @@ CREATE TABLE slika_kamiona (
     slika VARBINARY(MAX),
     pozicija VARCHAR (30),
     PRIMARY KEY (id),
-    FOREIGN KEY (id_kamion) REFERENCES kamion (id)
+    FOREIGN KEY (id_kamion) REFERENCES kamion (id) ON DELETE CASCADE
 );
 
 CREATE TABLE slika_motora (
@@ -252,7 +252,7 @@ CREATE TABLE slika_motora (
     slika VARBINARY(MAX),
     pozicija VARCHAR (30),
     PRIMARY KEY (id),
-    FOREIGN KEY (id_motocikl) REFERENCES motocikl (id)
+    FOREIGN KEY (id_motocikl) REFERENCES motocikl (id) ON DELETE CASCADE
 );
 
 CREATE TABLE osiguranje (
@@ -265,8 +265,8 @@ CREATE TABLE osiguranje (
     tip_osiguranja VARCHAR (20),
     PRIMARY KEY (id),
     FOREIGN KEY (id_osiguravacka_kuca) REFERENCES pravna_osoba (id),
-    FOREIGN KEY (id_vozilo) REFERENCES vozilo (id),
-    FOREIGN KEY (id_transakcija) REFERENCES transakcija (id)
+    FOREIGN KEY (id_vozilo) REFERENCES vozilo (id) ON DELETE CASCADE,
+    FOREIGN KEY (id_transakcija) REFERENCES transakcija (id) ON DELETE CASCADE
 );
 
 CREATE TABLE steta (
@@ -284,8 +284,8 @@ CREATE TABLE naknada_stete (
     id_osiguranje INT,
     id_steta INT,
     PRIMARY KEY (id),
-    FOREIGN KEY (id_transakcija) REFERENCES transakcija (id),
-    FOREIGN KEY (id_steta) REFERENCES steta (id),
+    FOREIGN KEY (id_transakcija) REFERENCES transakcija (id) ON DELETE CASCADE,
+    FOREIGN KEY (id_steta) REFERENCES steta (id) ON DELETE CASCADE,
     FOREIGN KEY (id_osiguranje) REFERENCES osiguranje (id)
 );
 
@@ -296,8 +296,8 @@ CREATE TABLE punjenje (
     kolicina NUMERIC(7, 3),
     tip_punjenja VARCHAR (10),
     PRIMARY KEY (id),
-    FOREIGN KEY (id_transakcija_punjenje) REFERENCES transakcija (id),
-    FOREIGN KEY (id_vozilo) REFERENCES vozilo (id)
+    FOREIGN KEY (id_transakcija_punjenje) REFERENCES transakcija (id) ON DELETE CASCADE,
+    FOREIGN KEY (id_vozilo) REFERENCES vozilo (id) ON DELETE CASCADE
 );
 
 CREATE TABLE odrzavanje (
@@ -307,7 +307,7 @@ CREATE TABLE odrzavanje (
     id_transakcija_odrzavanje BIGINT,
     PRIMARY KEY (id),
     FOREIGN KEY (id_zaposlenik) REFERENCES zaposlenik (id),
-    FOREIGN KEY (id_transakcija_odrzavanje) REFERENCES transakcija (id)
+    FOREIGN KEY (id_transakcija_odrzavanje) REFERENCES transakcija (id) ON DELETE CASCADE
 );
 
 CREATE TABLE rezervacija (
@@ -316,7 +316,7 @@ CREATE TABLE rezervacija (
     datum_potvrde DATE, 
     id_klijent INT,
     PRIMARY KEY (id),
-    FOREIGN KEY (id_klijent) REFERENCES klijent (id)
+    FOREIGN KEY (id_klijent) REFERENCES klijent (id) ON DELETE CASCADE
 );
 
 CREATE TABLE oprema (
@@ -332,7 +332,7 @@ CREATE TABLE oprema_na_najmu (
     id_oprema,
     kolicina TINYINT,
     PRIMARY KEY (id),
-    FOREIGN KEY (id_vozilo_na_najmu) REFERENCES najam_vozila (id),
+    FOREIGN KEY (id_vozilo_na_najmu) REFERENCES najam_vozila (id) ON DELETE CASCADE,
     FOREIGN KEY (id_oprema) REFERENCES oprema (id)
 );
 
@@ -342,7 +342,7 @@ CREATE TABLE oprema_na_rezervaciji (
     id_oprema INT,
     kolicina TINYINT,
     PRIMARY KEY (id),
-    FOREIGN KEY (id_rezervacija) REFERENCES rezervacija (id),
+    FOREIGN KEY (id_rezervacija) REFERENCES rezervacija (id) ON DELETE CASCADE,
     FOREIGN KEY (id_oprema) REFERENCES oprema (id)
 )
 
@@ -351,7 +351,7 @@ CREATE TABLE vozilo_na_rezervaciji (
     id_rezervacija BIGINT,
     id_vozilo MEDIUMINT,
     PRIMARY KEY (id),
-    FOREIGN KEY (id_rezervacija) REFERENCES rezervacija (id),
+    FOREIGN KEY (id_rezervacija) REFERENCES rezervacija (id) ON DELETE CASCADE,
     FOREIGN KEY (id_vozilo) REFERENCES vozilo (id),
 )
 
@@ -360,6 +360,6 @@ CREATE TABLE crna_lista (
     id_klijent INT,
     razlog TEXT,
     PRIMARY KEY (id),
-    FOREIGN KEY (id_klijent) REFERENCES klijent (id)
+    FOREIGN KEY (id_klijent) REFERENCES klijent (id) ON DELETE CASCADE
 )
 
