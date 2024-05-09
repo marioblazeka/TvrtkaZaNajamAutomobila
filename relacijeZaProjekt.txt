@@ -149,20 +149,6 @@ CREATE TABLE kontakt_pravne_osobe (
     FOREIGN KEY id_pravna_osoba REFERENCES pravna_osoba (id)
 );
 
-CREATE TABLE najam_vozila (
-    id BIGINT NOT NULL, 
-    id_transakcija_najam BIGINT, 
-    id_klijent_najam INT, 
-    id_zaposlenik_najam MEDIUMINT, 
-    datum_pocetka DATE, 
-    datum_zavrsetka DATE, 
-    status VARCHAR (15),
-    PRIMARY KEY (id),
-    FOREIGN KEY (id_transakcija_najam) REFERENCES transakcija (id),
-    FOREIGN KEY (id_klijent_najam) REFERENCES klijent (id),
-    FOREIGN KEY (id_zaposlenik_najam) REFERENCES zaposlenik (id)
-);
-
 CREATE TABLE vozilo (
     id INT NOT NULL,
     godina_proizvodnje CHAR(4), 
@@ -171,16 +157,23 @@ CREATE TABLE vozilo (
     PRIMARY KEY (id),
 );
 
-CREATE TABLE vozilo_na_najmu (
-    id BIGINT NOT NULL,
+CREATE TABLE najam_vozila (
+    id BIGINT NOT NULL, 
+    id_transakcija_najam BIGINT, 
+    id_klijent_najam INT, 
+    id_zaposlenik_najam MEDIUMINT, 
+    id_vozilo INT,
+    datum_pocetka DATE, 
+    datum_zavrsetka DATE, 
+    status VARCHAR (15),
     pocetna_kilometraza NUMERIC (10, 2), 
     zavrsna_kilometraza NUMERIC (10, 2), 
-    id_najam BIGINT,
-    id_vozilo INT,
     PRIMARY KEY (id),
-    FOREIGN KEY (id_najam) REFERENCES najam_vozila (id),
+    FOREIGN KEY (id_transakcija_najam) REFERENCES transakcija (id),
+    FOREIGN KEY (id_klijent_najam) REFERENCES klijent (id),
+    FOREIGN KEY (id_zaposlenik_najam) REFERENCES zaposlenik (id),
     FOREIGN KEY (id_vozilo) REFERENCES vozilo (id)
-)
+);
 
 CREATE TABLE serija_auto_kamion (
     id SMALLINT NOT NULL, 
@@ -335,11 +328,11 @@ CREATE TABLE oprema (
 
 CREATE TABLE oprema_na_najmu (
     id BIGINT NOT NULL,
-    id_vozilo_na_najmu,
+    id_najam_vozila,
     id_oprema,
     kolicina TINYINT,
     PRIMARY KEY (id),
-    FOREIGN KEY (id_vozilo_na_najmu) REFERENCES vozilo_na_najmu (id),
+    FOREIGN KEY (id_vozilo_na_najmu) REFERENCES najam_vozila (id),
     FOREIGN KEY (id_oprema) REFERENCES oprema (id)
 );
 
