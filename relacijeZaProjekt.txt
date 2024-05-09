@@ -2,12 +2,30 @@ CREATE DATABASE najam_vozila;
 
 USE najam_vozila;
 
+CREATE TABLE pravna_osoba (
+    id MEDIUMINT NOT NULL, 
+    ime VARCHAR (100), 
+    identifikacijski_broj VARCHAR (25),
+    drzava_sjediste VARCHAR (47),
+    grad_sjediste VARCHAR (100),
+    adresa_sjediste VARCHAR (100),
+    PRIMARY KEY (id),
+);
+
 CREATE TABLE klijent (
     id INT NOT NULL,
     ime VARCHAR (30), 
     prezime VARCHAR (30), 
     identifikacijski_broj VARCHAR (13),
     id_pravna_osoba INT,
+    PRIMARY KEY (id),
+    FOREIGN KEY (id_pravna_osoba) REFERENCES pravna_osoba (id)
+);
+
+CREATE TABLE zanimanje (
+    id SMALLINT NOT NULL,
+    opis_zanimanja TEXT,
+    odjel VARCHAR (50),
     PRIMARY KEY (id),
 );
 
@@ -29,13 +47,6 @@ CREATE TABLE zaposlenik (
     FOREIGN KEY (id_zanimanje) REFERENCES zanimanje (id)
 );
 
-CREATE TABLE zanimanje (
-    id SMALLINT NOT NULL,
-    opis_zanimanja TEXT,
-    odjel VARCHAR (50),
-    PRIMARY KEY (id),
-);
-
 CREATE TABLE kontakt_klijenta (
     id INT NOT NULL, 
     email VARCHAR (320), 
@@ -51,6 +62,15 @@ CREATE TABLE prihod (
     opis TEXT,
     tip_prihoda VARCHAR (25),
     PRIMARY KEY (id)
+);
+
+CREATE TABLE transakcija (
+    id BIGINT NOT NULL, 
+    datum DATE, 
+    iznos NUMERIC (12,2), 
+    broj_racuna VARCHAR (7), 
+    placeno NUMERIC (12,2),
+    PRIMARY KEY (id),
 );
 
 CREATE TABLE prihod_za_zaposlenika (
@@ -92,15 +112,6 @@ CREATE TABLE poslovni_trosak (
     FOREIGN KEY (id_transakcija_poslovnog_troska) REFERENCES transakcija (id)
 );
 
-CREATE TABLE transakcija (
-    id BIGINT NOT NULL, 
-    datum DATE, 
-    iznos NUMERIC (12,2), 
-    broj_racuna VARCHAR (7), 
-    placeno NUMERIC (12,2),
-    PRIMARY KEY (id),
-);
-
 CREATE TABLE gotovinsko_placanje (
     id BIGINT NOT NULL, 
     id_transakcija_gotovina BIGINT,
@@ -125,16 +136,6 @@ CREATE TABLE kriptovalutno_placanje (
     id_transakcija_kripto BIGINT,
     PRIMARY KEY (id),
     FOREIGN KEY (id_transakcija_kripto) REFERENCES transakcija (id)
-);
-
-CREATE TABLE pravna_osoba (
-    id MEDIUMINT NOT NULL, 
-    ime VARCHAR (100), 
-    identifikacijski_broj VARCHAR (25),
-    drzava_sjediste VARCHAR (47),
-    grad_sjediste VARCHAR (100),
-    adresa_sjediste VARCHAR (100),
-    PRIMARY KEY (id),
 );
 
 CREATE TABLE kontakt_pravne_osobe (
