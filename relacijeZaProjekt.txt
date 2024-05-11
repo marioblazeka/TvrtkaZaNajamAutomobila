@@ -24,6 +24,7 @@ CREATE TABLE klijent (
 
 CREATE TABLE zanimanje (
     id SMALLINT NOT NULL,
+    naziv VARCHAR (50),
     opis_zanimanja TEXT,
     odjel VARCHAR (50),
     PRIMARY KEY (id),
