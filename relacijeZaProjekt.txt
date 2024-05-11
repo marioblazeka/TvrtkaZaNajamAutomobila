@@ -39,7 +39,7 @@ CREATE TABLE zaposlenik (
     drzava_radno_mjesto VARCHAR (47),
     grad_radno_mjesto VARCHAR (100),
     adresa_radno_mjesto VARCHAR (100),
-    spol CHAR (1),
+    spol CHAR (1) CHECK (spol IN ('M', 'F')),
     broj_telefona VARCHAR (20),
     broj_mobitela VARCHAR (20) UNIQUE,
     email VARCHAR (320) UNIQUE,
@@ -154,13 +154,13 @@ CREATE TABLE vozilo (
 
 CREATE TABLE najam_vozila (
     id INT NOT NULL AUTO_INCREMENT, 
-    id_transakcija_najam BIGINT, 
-    id_klijent_najam INT, 
-    id_zaposlenik_najam MEDIUMINT, 
-    id_vozilo INT,
+    id_transakcija_najam BIGINT NOT NULL, 
+    id_klijent_najam INT NOT NULL, 
+    id_zaposlenik_najam MEDIUMINT NOT NULL, 
+    id_vozilo INT NOT NULL,
     datum_pocetka DATE, 
     datum_zavrsetka DATE, 
-    status VARCHAR (15),
+    status VARCHAR (15) NOT NULL,
     pocetna_kilometraza NUMERIC (10, 2), 
     zavrsna_kilometraza NUMERIC (10, 2), 
     PRIMARY KEY (id),
@@ -347,7 +347,7 @@ CREATE TABLE vozilo_na_rezervaciji (
 CREATE TABLE crna_lista (
     id SMALLINT NOT NULL AUTO_INCREMENT,
     id_klijent INT NOT NULL,
-    razlog TEXT,
+    razlog TEXT CHECK (LENGTH(razlog) > 30),
     PRIMARY KEY (id),
     FOREIGN KEY (id_klijent) REFERENCES klijent (id) ON DELETE CASCADE
 )
