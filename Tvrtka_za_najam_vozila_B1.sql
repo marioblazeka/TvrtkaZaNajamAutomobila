@@ -336,7 +336,7 @@ CREATE TABLE crna_lista (
     FOREIGN KEY (id_klijent) REFERENCES klijent(id)
 );
 
-INSERT INTO vozilo VALUES -- Mirela
+INSERT INTO vozilo (id, godina_proizvodnje, registracijska_tablica, tip_punjenja) VALUES -- Mirela
 (1, '2018', 'ZG1234AB', 'Električno'),
 (2, '2019', 'ST5678CD', 'Hibridno'),
 (3, '2017', 'ZG9012EF', 'Benzin'),
