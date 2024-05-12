@@ -30,22 +30,30 @@ CREATE TABLE zanimanje (
     PRIMARY KEY (id),
 );
 
+CREATE TABLE poslovnica (
+    id SMALLINT NOT NULL AUTO_INCREMENT,
+    drzava VARCHAR (47),
+    grad VARCHAR (100),
+    adresa VARCHAR (100),
+    PRIMARY KEY (id)
+);
+
+
 CREATE TABLE zaposlenik (
     id MEDIUMINT NOT NULL AUTO_INCREMENT, 
     id_nadredeni_zaposlenik MEDIUMINT, 
     ime VARCHAR (30) NOT NULL, 
     prezime VARCHAR (30) NOT NULL, 
     identifikacijski_broj VARCHAR (15) NOT NULL UNIQUE,
-    drzava_radno_mjesto VARCHAR (47),
-    grad_radno_mjesto VARCHAR (100),
-    adresa_radno_mjesto VARCHAR (100),
     spol CHAR (1) CHECK (spol IN ('M', 'F')),
     broj_telefona VARCHAR (20),
     broj_mobitela VARCHAR (20) UNIQUE,
     email VARCHAR (320) UNIQUE,
-    id_zanimanje SMALLINT, 
+    id_zanimanje SMALLINT NOT NULL, 
+    id_poslovnica SMALLINT NOT NULL,
     PRIMARY KEY (id),
-    FOREIGN KEY (id_zanimanje) REFERENCES zanimanje (id)
+    FOREIGN KEY (id_zanimanje) REFERENCES zanimanje (id),
+    FOREIGN KEY (id_poslovnica) REFERENCES poslovnica (id)
 );
 
 CREATE TABLE kontakt_klijenta (
@@ -244,18 +252,24 @@ CREATE TABLE slika_motora (
     FOREIGN KEY (id_motocikl) REFERENCES motocikl (id) ON DELETE CASCADE
 );
 
-CREATE TABLE osiguranje (
-    id INT NOT NULL AUTO_INCREMENT, 
-    id_osiguravacka_kuca MEDIUMINT, 
-    id_vozilo MEDIUMINT, 
-    id_transakcija BIGINT, 
-    datum_pocetka DATE, 
-    datum_zavrsetka DATE, 
+CREATE TABLE tip_osiguranja (
+    id SMALLINT NOT NULL AUTO_INCREMENT,
+    id_osiguravajuca_kuca MEDIUMINT,
     tip_osiguranja VARCHAR (20),
     PRIMARY KEY (id),
-    FOREIGN KEY (id_osiguravacka_kuca) REFERENCES pravna_osoba (id),
+    FOREIGN KEY (id_osiguravajuca_kuca) REFERENCES pravna_osoba (id)
+
+CREATE TABLE osiguranje (
+    id INT NOT NULL AUTO_INCREMENT, 
+    id_vozilo MEDIUMINT, 
+    id_transakcija BIGINT, 
+    id_tip_osiguranja SMALLINT NOT NULL,
+    datum_pocetka DATE, 
+    datum_zavrsetka DATE, 
+    PRIMARY KEY (id),
     FOREIGN KEY (id_vozilo) REFERENCES vozilo (id) ON DELETE CASCADE,
-    FOREIGN KEY (id_transakcija) REFERENCES transakcija (id) ON DELETE CASCADE
+    FOREIGN KEY (id_transakcija) REFERENCES transakcija (id) ON DELETE CASCADE,
+    FOREIGN KEY (id_tip_osiguranja) REFERENCES tip_osiguranja (id) ON DELETE CASCADE
 );
 
 CREATE TABLE steta (
