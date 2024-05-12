@@ -1,0 +1,1 @@
+SELECT * FROM tvrtka_za_najam_vozila.zaposlenik;
