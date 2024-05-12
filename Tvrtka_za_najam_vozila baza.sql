@@ -332,7 +332,7 @@ CREATE TABLE crna_lista (
     FOREIGN KEY (id_klijent) REFERENCES klijent(id)
 );
 
-INSERT INTO vozilo VALUES -- Mirela
+INSERT INTO vozilo (id, godina_proizvodnje, registracijska_tablica, tip_punjenja) VALUES  -- Mirela
 (1, '2018', 'ZG1234AB', 'Električno'),
 (2, '2019', 'ST5678CD', 'Hibridno'),
 (3, '2017', 'ZG9012EF', 'Benzin'),
@@ -364,7 +364,7 @@ INSERT INTO vozilo VALUES -- Mirela
 (29, '2018', 'OS5678DE', 'Električno'),
 (30, '2019', 'PU9012FG', 'Benzin');
 
-INSERT INTO najam_vozila VALUES -- Mirela
+INSERT INTO najam_vozila (id, id_transakcija_najam, id_klijent_najam, id_zaposlenik_najam, id_vozilo, datum_pocetka, datum_zavrsetka, status, pocetna_kilometraza, zavrsna_kilometraza) VALUES  -- Mirela
 (1, 20, 14, 9, 17, '2024-05-01', '2024-05-10', 'Aktivan', 1000.00, 1200.00),
 (2, 3, 10, 25, 5, '2024-05-02', '2024-05-11', 'Aktivan', 900.00, 1100.00),
 (3, 12, 1, 25, 23, '2024-05-03', '2024-05-12', 'Aktivan', 1100.00, 1300.00),
@@ -460,37 +460,40 @@ INSERT INTO kontakt_klijenta (id, email, broj_mobitela, broj_telefona, id_klijen
 (29, 'elena.novak@gmail.com', '890123456', '099012345', 29),
 (30, 'roko.knezevic@gmail.com', '901234567', '109012345', 30);
 
-INSERT INTO zaposlenik VALUES -- Mirela
-(1, NULL, 'Ana', 'Horvat', 'AB123456789012', 'Hrvatska', 'Zagreb', 'Ilica 10', 'Ž', '0123456789', '0987654321', 'ana.horvat@gmail.com', 1),
-(2, 1, 'Ivan', 'Kovačević', 'CD987654321098', 'Hrvatska', 'Zagreb', 'Trg Bana Jelačića 5', 'M', '023456789', '0912345678', 'ivan.kovacevic@gmail.com', 13),
-(3, 1, 'Petra', 'Novak', 'EF456789012345', 'Hrvatska', 'Zagreb', 'Knez Mislav 2', 'Ž', '034567890', '092345678', 'petra.novak@gmail.com', 9),
-(4, NULL, 'Marko', 'Petrović', 'GH321098765432', 'Hrvatska', 'Zagreb', 'Frankopanska 15', 'M', '045678901', '093456789', 'marko.petrovic@gmail.com', 4),
-(5, 4, 'Ivana', 'Knežević', 'IJ789012345678', 'Hrvatska', 'Zagreb', 'Savska 7', 'Ž', '056789012', '094567890', 'ivana.knezevic@gmail.com', 12),
-(6, 4, 'Luka', 'Šimunović', 'KL234567890123', 'Hrvatska', 'Zagreb', 'Petrova 20', 'M', '067890123', '095678901', 'luka.simunovic@gmail.com', 6),
-(7, 4, 'Martina', 'Marić', 'MN890123456789', 'Hrvatska', 'Zagreb', 'Heinzelova 10', 'Ž', '078901234', '096789012', 'martina.maric@gmail.com', 3),
-(8, NULL, 'Filip', 'Horvat', 'OP654321098765', 'Hrvatska', 'Zagreb', 'Trnavačka 25', 'M', '089012345', '097890123', 'filip.horvat@gmail.com', 5),
-(9, 8, 'Sanja', 'Perić', 'QR901234567890', 'Hrvatska', 'Zagreb', 'Kvaternikov trg 3', 'Ž', '090123456', '098901234', 'sanja.peric@gmail.com', 2),
-(10, 8, 'Ivan', 'Šimić', 'ST543210987654', 'Hrvatska', 'Zagreb', 'Selska 8', 'M', '901234567', '099012345', 'ivan.simic@gmail.com', 7),
-(11, 8, 'Lucija', 'Tomljanović', 'UV012345678901', 'Hrvatska', 'Zagreb', 'Vlaška 12', 'Ž', '912345678', '012345678', 'lucija.tomljanovic@gmail.com', 10),
-(12, NULL, 'Stjepan', 'Ilić', 'WX432109876543', 'Hrvatska', 'Zagreb', 'Jurja Križanića 17', 'M', '923456789', '123456789', 'stjepan.ilic@gmail.com', 28),
-(13, 12, 'Maja', 'Jurić', 'YZ789012345678', 'Hrvatska', 'Zagreb', 'Radnička cesta 80', 'Ž', '934567890', '234567890', 'maja.juric@gmail.com', 14),
-(14, 12, 'Matej', 'Horvat', 'ZA123456789012', 'Hrvatska', 'Zagreb', 'Avenija Dubrovnik 12', 'M', '945678901', '345678901', 'matej.horvat@gmail.com', 21),
-(15, 12, 'Nina', 'Kovač', 'BC345678901234', 'Hrvatska', 'Zagreb', 'Zagrebačka avenija 100', 'Ž', '956789012', '456789012', 'nina.kovac@gmail.com', 18),
-(16, NULL, 'Dario', 'Pavić', 'CD678901234567', 'Hrvatska', 'Zagreb', 'Jurišićeva 23', 'M', '967890123', '567890123', 'dario.pavic@gmail.com', 23),
-(17, 16, 'Kristina', 'Jakovljević', 'EF901234567890', 'Hrvatska', 'Zagreb', 'Slavonska avenija 2', 'Ž', '978901234', '678901234', 'kristina.jakovljevic@gmail.com', 20),
-(18, 16, 'Petra', 'Kovačević', 'GH123456789012', 'Hrvatska', 'Zagreb', 'Nova cesta 15', 'Ž', '989012345', '789012345', 'petra.kovacevic@gmail.com', 25),
-(19, 16, 'Ante', 'Marković', 'IJ456789012345', 'Hrvatska', 'Zagreb', 'Gajeva 12', 'M', '990123456', '890123456', 'ante.markovic@gmail.com', 29),
-(20, NULL, 'Marija', 'Novak', 'KL789012345678', 'Hrvatska', 'Zagreb', 'Ulica grada Vukovara 68', 'Ž', '001234567', '901234567', 'marija.novak@gmail.com', 17),
-(21, 20, 'Igor', 'Vuković', 'MN012345678901', 'Hrvatska', 'Zagreb', 'Nova Ves 18', 'M', '012345678', '012345678', 'igor.vukovic@gmail.com', 8),
-(22, 20, 'Lana', 'Pavlović', 'OP345678901234', 'Hrvatska', 'Zagreb', 'Savska cesta 30', 'Ž', '023456789', '123456789', 'lana.pavlovic@gmail.com', 11),
-(23, 20, 'Matija', 'Marić', 'QR678901234567', 'Hrvatska', 'Zagreb', 'Heinzelova 25', 'M', '034567890', '234567890', 'matija.maric@gmail.com', 16),
-(24, 23, 'Elena', 'Kovačić', 'ST901234567890', 'Hrvatska', 'Zagreb', 'Selska 18', 'Ž', '045678901', '345678901', 'elena.kovacic@gmail.com', 11),
-(25, 23, 'Roko', 'Jurić', 'UV123456789012', 'Hrvatska', 'Zagreb', 'Vlaška 30', 'M', '056789012', '456789012', 'roko.juric@gmail.com', 19),
-(26, 23, 'Ana', 'Pavić', 'WX345678901234', 'Hrvatska', 'Zagreb', 'Jurja Dobrile 5', 'Ž', '067890123', '567890123', 'ana.pavic@gmail.com', 27),
-(27, 23, 'Iva', 'Horvat', 'YZ012345678901', 'Hrvatska', 'Zagreb', 'Prilaz baruna Filipovića 22', 'Ž', '078901234', '678901234', 'iva.horvat@gmail.com', 8),
-(28, NULL, 'Robert', 'Knežević', 'AB345678901234', 'Hrvatska', 'Zagreb', 'Haulikova 3', 'M', '089012345', '789012345', 'robert.knezevic@gmail.com', 17),
-(29, 28, 'Nikola', 'Perić', 'CD901234567890', 'Hrvatska', 'Zagreb', 'Kačićeva 7', 'M', '090123456', '901234567', 'nikola.peric@gmail.com', 26),
-(30, 28, 'Ivana', 'Marić', 'EF123456789012', 'Hrvatska', 'Zagreb', 'Vlaška 35', 'Ž', '901234567', '012345678', 'ivana.maric@gmail.com', 24);
+INSERT INTO zaposlenik (id, id_nadredeni_zaposlenik, ime, prezime, identifikacijski_broj, drzava_radno_mjesto, grad_radno_mjesto, adresa_radno_mjesto, spol, broj_telefona, broj_mobitela, email, id_zanimanje) VALUES -- Mirela 
+(1, 3, "Mario", "Babić", 84592312093, "Hrvatska", "Zagreb", "M", 0978341293, "marko.babic8923@gmail.com", 1),
+(2, 3, "Ivana", "Klasnić", 38045812084, "Hrvatska", "Zagreb", "F", 091569834, "ivanaklasnic34@gmail.com", 1),
+(3, 25, "Marko", "Novak", 59034812073, "Hrvatska", "Zagreb", "M", 098347610, "markonovak123@gmail.com", 2),
+(4, 3, "Ana", "Horvat", 72903485023, "Hrvatska", "Zagreb", "F", 0912345678, "ana.horvat@gmail.com", 3),
+(5, 7, "Petra", "Kovač", 87203948023, "Hrvatska", "Zagreb", "F", 095678123, "petra.kovac@gmail.com", 4),
+(6, 7, "Luka", "Vuković", 93208459032, "Hrvatska", "Zagreb", "M", 0987654321, "luka.vukovic4@gmail.com", 4),
+(7, 25, "Martina", "Jurić", 50293847032, "Hrvatska", "Zagreb", "F", 0913456789, "martina.juric@gmail.com", 5),
+(8, 25, "Ivan", "Marić", 39047293048, "Hrvatska", "Zagreb", "M", 095432189, "imaric28@gmail.com", 6),
+(9, 22, "Marina", "Knežević", 68304590328, "Hrvatska", "Zagreb", "F", 098765432, "mknez34@gmail.com", 7),
+(10, 22, "Mateo", "Barić", 84203948570, "Hrvatska", "Zagreb", "M", 091234567, "mbaric@gmail.com", 8),
+(11, 22, "Lucija", "Mihaljević", 59304857203, "Hrvatska", "Zagreb", "F", 095678123, "lucija.mihaljevic@gmail.com", 8),
+(12, 22, "Mihajlo", "Dobrisavljević", 30948502934, "Srbija", "Beograd", "M", 0987654321, "mdobrisavljevic@gmail.com", 7),
+(13, 22, "Lana", "Matić", 48503294570, "Srbija", "Beograd", "F", 091234567, "lmatic@gmail.com", 8),
+(14, 22, "Filip", "Horvat", 59304857203, "Hrvatska", "Split", "M", 095678123, "filip.horvat23@gmail.com", 7),
+(15, 22, "Ana", "Kovačević", 39047293048, "Hrvatska", "Split", "F", 098765432, "ana.kovacevic@gmail.com", 8),
+(16, 22, "Petar", "Petrovič", 68304590328, "Slovenija", "Ljubljana", "M", 091234567, "petar.petrovic@gmail.com", 7),
+(17, 22, "Ivona", "Ilič", 84203948570, "Slovenija", "Ljubljana", "F", 095678123, "ivona.ilic2@gmail.com", 8),
+(18, 22, "Giovanna", "Bianchi", 59304857203, "Italija", "Torino", "M", 0987654321, "giovanna.bianchi@gmail.com", 7),
+(19, 22, "Mia", "Esposito", 30948502934, "Italija", "Torino", "F", 091234567, "mia.espos33@gmail.com", 8),
+(20, 22, "Niccolo", "De Luca", 48503294570, "Italija", "Milano", "M", 095678123, "nickdeluca@gmail.com", 7),
+(21, 22, "Marina", "Ferrari", 39047293048, "Italija", "Milano", "F", 098765432, "marina.ferrari75@gmail.com", 8),
+(22, 25, "Luka", "Petrović", 68304590328, "Hrvatska", "Zagreb", "M", 091234567, "luka.petrovic@gmail.com", 9),
+(23, 22, "Tea", "Ambešković", 84203948570, "Bosna i Hercegovina", "Sarajevo", "F", 095678123, "tea.amb@gmail.com", 7),
+(24, 22, "Marta", "Lovac", 59304857203, "Bosna i Hercegovina", "Sarajevo", "F", 0987654321, "marta.baric@gmail.com", 8),
+(25, NULL, "Luka", "Horvat", 30948502934, "Hrvatska", "Zagreb", "M", 091234567, "luka.horvat@gmail.com", 10),
+(26, 22, "Ana", "Mihaljević", 48503294570, "Hrvatska", "Rijeka", "F", 095678123, "ana.mihaljevic@gmail.com", 7),
+(27, 22, "Ivan", "Kovačević", 39047293048, "Hrvatska", "Rijeka", "M", 098765432, "ivan.kovacevic@gmail.com", 8),
+(28, 30, "Szilvia", "Nagy", 68304590328, "Mađarska", "Budimpešta", "F", 091234567, "szilvia.nagy@gmail.com", 7),
+(29, 30, "László", "Varga", 84203948570, "Mađarska", "Budimpešta", "M", 095678123, "laszlo.varga90@gmail.com", 7),
+(30, 25, "Viktória", "Balogh", 59304857203, "Mađarska", "Budimpešta", "F", 0987654321, "vikkibalogh@gmail.com", 8);
+
+
+
 
 INSERT INTO transakcija (id, datum, iznos, broj_racuna, placeno) VALUES -- Mirela
 (1, '2024-05-01', 150.00, 'ABC1234', 150.00),
