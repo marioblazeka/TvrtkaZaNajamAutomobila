@@ -68,7 +68,7 @@ CREATE TABLE kontakt_klijenta (
 
 CREATE TABLE prihod (
     id TINYINT NOT NULL AUTO_INCREMENT, 
-    opis TEXT,
+    opis TEXT (200),
     tip_prihoda VARCHAR (25) NOT NULL,
     PRIMARY KEY (id)
 );
@@ -86,7 +86,7 @@ CREATE TABLE prihod_za_zaposlenika (
     id INT NOT NULL AUTO_INCREMENT,
     datum DATE,
     id_zaposlenik MEDIUMINT, 
-    id_transakcija_prihoda INT NOT NULL,
+    id_transakcija_prihoda BIGINT NOT NULL,
     id_prihod TINYINT NOT NULL,
     PRIMARY KEY (id),
     FOREIGN KEY (id_zaposlenik) REFERENCES zaposlenik (id) ON DELETE CASCADE,
@@ -114,9 +114,9 @@ CREATE TABLE popust_za_klijenta (
 
 CREATE TABLE poslovni_trosak (
     id INT NOT NULL AUTO_INCREMENT, 
-    id_transakcija_poslovnog_troska INT NOT NULL, 
+    id_transakcija_poslovnog_troska BIGINT NOT NULL, 
     svrha VARCHAR (40), 
-    opis TEXT,
+    opis TEXT (200),
     PRIMARY KEY (id),
     FOREIGN KEY (id_transakcija_poslovnog_troska) REFERENCES transakcija (id) ON DELETE CASCADE
 );
@@ -157,7 +157,13 @@ CREATE TABLE vozilo (
     godina_proizvodnje CHAR(4), 
     registracijska_tablica VARCHAR (15) NOT NULL, 
     tip_punjenja VARCHAR (10),
+    duljina NUMERIC (4, 2),
+    visina NUMERIC (3, 2),
+    nosivost NUMERIC (5, 2),
+    id_serija SMALLINT,
+    tip_vozila CHAR (1) CHECK (tip_vozila IN ('K', 'M', 'A')),
     PRIMARY KEY (id),
+    FOREIGN KEY (id_serija) REFERENCES serija (id)
 );
 
 CREATE TABLE najam_vozila (
@@ -178,78 +184,23 @@ CREATE TABLE najam_vozila (
     FOREIGN KEY (id_vozilo) REFERENCES vozilo (id)
 );
 
-CREATE TABLE serija_auto_kamion (
+CREATE TABLE serija (
     id SMALLINT NOT NULL AUTO_INCREMENT, 
     ime VARCHAR (100) NOT NULL UNIQUE, 
     proizvodac VARCHAR (40), 
-    najveca_brzina SMALLINT, 
-    konjska_snaga SMALLINT, 
     tip_mjenjaca VARCHAR (10), 
+    broj_sjedala,
     broj_vrata TINYINT,
     PRIMARY KEY (id),
 );
 
-CREATE TABLE automobil (
-    id MEDIUMINT NOT NULL AUTO_INCREMENT, 
-    id_serija_auto_kamion SMALLINT,
-    duljina NUMERIC (3, 2),
-    PRIMARY KEY (id),
-    FOREIGN KEY (id_serija_auto_kamion) REFERENCES serija_auto_kamion (id)
-);
-
-CREATE TABLE serija_motocikl (
-    id SMALLINT NOT NULL AUTO_INCREMENT,
-    ime VARCHAR (100),
-    proizvodac VARCHAR (40),
-    najveca_brzina SMALLINT,
-    konjska_snaga SMALLINT,
-    broj_sjedala CHAR(1),
-    PRIMARY KEY (id),
-);
-
-CREATE TABLE motocikl (
-    id MEDIUMINT NOT NULL AUTO_INCREMENT, 
-    id_serija_motocikl SMALLINT,
-    duljina NUMERIC (3, 2),
-    PRIMARY KEY (id),
-    FOREIGN KEY (id_serija_motocikl) REFERENCES serija_motocikl (id)
-);
-
-CREATE TABLE kamion (
-    id MEDIUMINT NOT NULL AUTO_INCREMENT, 
-    id_serija_auto_kamion SMALLINT,
-    duljina NUMERIC (4, 2),
-    visina NUMERIC (3, 2),
-    nosivost NUMERIC (5, 2),
-    PRIMARY KEY (id),
-    FOREIGN KEY (id_serija_auto_kamion) REFERENCES serija_auto_kamion (id)
-);
-
-CREATE TABLE slika_automobila (
+CREATE TABLE slika_vozila (
     id INT NOT NULL AUTO_INCREMENT, 
-    id_automobil MEDIUMINT NOT NULL, 
-    slika VARBINARY(MAX),
+    id_vozilo MEDIUMINT NOT NULL, 
+    slika VARBINARY (MAX),
     pozicija VARCHAR (30),
     PRIMARY KEY (id),
-    FOREIGN KEY (id_automobil) REFERENCES automobil (id) ON DELETE CASCADE
-);
-
-CREATE TABLE slika_kamiona (
-    id INT NOT NULL AUTO_INCREMENT, 
-    id_kamion MEDIUMINT NOT NULL, 
-    slika VARBINARY(MAX),
-    pozicija VARCHAR (30),
-    PRIMARY KEY (id),
-    FOREIGN KEY (id_kamion) REFERENCES kamion (id) ON DELETE CASCADE
-);
-
-CREATE TABLE slika_motora (
-    id INT NOT NULL AUTO_INCREMENT, 
-    id_motocikl MEDIUMINT NOT NULL, 
-    slika VARBINARY(MAX),
-    pozicija VARCHAR (30),
-    PRIMARY KEY (id),
-    FOREIGN KEY (id_motocikl) REFERENCES motocikl (id) ON DELETE CASCADE
+    FOREIGN KEY (id_vozilo) REFERENCES vozilo (id) ON DELETE CASCADE
 );
 
 CREATE TABLE tip_osiguranja (
@@ -258,6 +209,7 @@ CREATE TABLE tip_osiguranja (
     tip_osiguranja VARCHAR (20),
     PRIMARY KEY (id),
     FOREIGN KEY (id_osiguravajuca_kuca) REFERENCES pravna_osoba (id)
+);
 
 CREATE TABLE osiguranje (
     id INT NOT NULL AUTO_INCREMENT, 
@@ -275,7 +227,7 @@ CREATE TABLE osiguranje (
 CREATE TABLE steta (
     id INT NOT NULL AUTO_INCREMENT, 
     tip VARCHAR (7),
-    opis TEXT,
+    opis TEXT (200),
     PRIMARY KEY (id)
 );
 
@@ -293,7 +245,7 @@ CREATE TABLE naknada_stete (
 );
 
 CREATE TABLE punjenje (
-    id BIGINT NOT NULL AUTO_INCREMENT,
+    id INT NOT NULL AUTO_INCREMENT,
     id_transakcija_punjenje BIGINT NOT NULL,
     id_vozilo MEDIUMINT NOT NULL,
     kolicina NUMERIC(7, 3),
@@ -304,7 +256,7 @@ CREATE TABLE punjenje (
 );
 
 CREATE TABLE odrzavanje (
-    id BIGINT NOT NULL AUTO_INCREMENT, 
+    id INT NOT NULL AUTO_INCREMENT, 
     tip odrzavanja VARCHAR (100), 
     id_zaposlenik MEDIUMINT, 
     id_transakcija_odrzavanje BIGINT NOT NULL,
@@ -314,7 +266,7 @@ CREATE TABLE odrzavanje (
 );
 
 CREATE TABLE rezervacija (
-    id BIGINT NOT NULL AUTO_INCREMENT, 
+    id INT NOT NULL AUTO_INCREMENT, 
     datum_rezervacije DATE, 
     datum_potvrde DATE, 
     id_klijent INT NOT NULL,
@@ -325,12 +277,12 @@ CREATE TABLE rezervacija (
 CREATE TABLE oprema (
     id SMALLINT NOT NULL AUTO_INCREMENT,
     naziv VARCHAR (30),
-    opis TEXT,
+    opis TEXT (200),
     PRIMARY KEY (id)
 );
 
 CREATE TABLE oprema_na_najmu (
-    id BIGINT NOT NULL AUTO_INCREMENT,
+    id INT NOT NULL AUTO_INCREMENT,
     id_najam_vozila INT NOT NULL,
     id_oprema SMALLINT NOT NULL,
     kolicina TINYINT,
@@ -340,8 +292,8 @@ CREATE TABLE oprema_na_najmu (
 );
 
 CREATE TABLE oprema_na_rezervaciji (
-    id BIGINT NOT NULL AUTO_INCREMENT,
-    id_rezervacija BIGINT NOT NULL,
+    id INT NOT NULL AUTO_INCREMENT,
+    id_rezervacija INT NOT NULL,
     id_oprema INT NOT NULL,
     kolicina TINYINT,
     PRIMARY KEY (id),
@@ -350,8 +302,8 @@ CREATE TABLE oprema_na_rezervaciji (
 )
 
 CREATE TABLE vozilo_na_rezervaciji (
-    id BIGINT NOT NULL AUTO_INCREMENT,
-    id_rezervacija BIGINT NOT NULL,
+    id INT NOT NULL AUTO_INCREMENT,
+    id_rezervacija INT NOT NULL,
     id_vozilo MEDIUMINT NOT NULL,
     PRIMARY KEY (id),
     FOREIGN KEY (id_rezervacija) REFERENCES rezervacija (id) ON DELETE CASCADE,
