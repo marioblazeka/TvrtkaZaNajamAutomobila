@@ -2,7 +2,7 @@
 DROP DATABASE IF EXISTS tim2_najam_vozila_006;
 CREATE DATABASE tim2_najam_vozila_006;
 
-USE najam_vozila;
+USE tim2_najam_vozila_006;
 
 CREATE TABLE pravna_osoba (
     id INT AUTO_INCREMENT PRIMARY KEY,
