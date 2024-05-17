@@ -1,0 +1,69 @@
+-- Prikaz top 3 klijenta po ukupnom iznosu najma
+SELECT k.id AS id_klijent,
+    CONCAT(k.ime, ' ', k.prezime) AS ime_prezime_klijenta,
+    SUM(t.iznos) AS ukupni_iznos
+FROM klijent k
+INNER JOIN najam_vozila nv ON k.id = nv.id_klijent_najam
+INNER JOIN transakcija t ON nv.id_transakcija_najam = t.id
+INNER JOIN oprema_na_najmu onr ON nv.id = onr.id_najam_vozila
+GROUP BY k.id
+ORDER BY ukupni_iznos DESC
+LIMIT 3;
+
+
+
+-- Prikaz 5 vrsta dodatne opreme koja se najmanje puta iznajmila
+CREATE VIEW Broj_Najmova_Opreme AS
+SELECT o.naziv AS Vrsta_Opreme, COUNT(onr.id_najam_vozila) AS Broj_Najmova
+FROM oprema o
+LEFT JOIN oprema_na_najmu onr ON o.id = onr.id_oprema
+GROUP BY o.naziv;
+
+SELECT Vrsta_Opreme
+FROM Broj_Najmova_Opreme
+ORDER BY Broj_Najmova ASC
+LIMIT 5;
+
+
+-- Provjera najma vozila koja su premašila određeni broj kilometara
+SELECT nv.id, v.registracijska_tablica, nv.datum_pocetka, nv.datum_zavrsetka,
+       nv.zavrsna_kilometraza - nv.pocetna_kilometraza AS Prijeđeni_Kilometri
+FROM najam_vozila nv
+INNER JOIN vozilo v ON nv.id_vozilo = v.id
+WHERE nv.zavrsna_kilometraza - nv.pocetna_kilometraza > 100;
+
+
+
+-- Brojanje najmova vozila po državi sjedišta pravnih osoba
+SELECT p.drzava_sjediste AS Drzava, COUNT(nv.id) AS Broj_Najmova
+FROM pravna_osoba p
+INNER JOIN klijent k ON p.id = k.id_pravna_osoba
+INNER JOIN najam_vozila nv ON k.id = nv.id_klijent_najam
+GROUP BY p.drzava_sjediste
+ORDER BY Broj_Najmova DESC;
+
+
+
+-- Prikaz troškova najma vozila po zaposleniku
+CREATE VIEW Ukupni_Troskovi_Najma_Zaposlenika AS
+SELECT z.id AS id_zaposlenik, z.ime, z.prezime, SUM(t.iznos) AS ukupni_troskovi
+FROM zaposlenik z
+INNER JOIN najam_vozila nv ON z.id = nv.id_zaposlenik_najam
+INNER JOIN transakcija t ON nv.id_transakcija_najam = t.id
+GROUP BY z.id, z.ime, z.prezime;
+
+SELECT ime, prezime, ukupni_troskovi
+FROM Ukupni_Troskovi_Najma_Zaposlenika
+ORDER BY ukupni_troskovi DESC;
+
+
+
+-- Prikaz klijenata koji su generirali najveće troškove najma opreme i vozila
+SELECT k.id AS id_klijent, CONCAT(k.ime, ' ', k.prezime) AS ime_prezime_klijenta, SUM(t.iznos) AS ukupni_iznos
+FROM klijent k
+INNER JOIN najam_vozila nv ON k.id = nv.id_klijent_najam
+INNER JOIN transakcija t ON nv.id_transakcija_najam = t.id
+INNER JOIN oprema_na_najmu onr ON nv.id = onr.id_najam_vozila
+GROUP BY k.id
+ORDER BY ukupni_iznos DESC
+LIMIT 3;
