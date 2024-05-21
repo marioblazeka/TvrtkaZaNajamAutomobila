@@ -6,10 +6,9 @@ CREATE TABLE pravna_osoba (
     id MEDIUMINT NOT NULL AUTO_INCREMENT, 
     ime VARCHAR (100), 
     identifikacijski_broj VARCHAR (25) NOT NULL UNIQUE,
-    drzava_sjediste VARCHAR (47),
-    grad_sjediste VARCHAR (100),
-    adresa_sjediste VARCHAR (100),
+    id_lokacija SMALLINT,
     PRIMARY KEY (id),
+    FOREIGN KEY (id_lokacija) REFERENCES lokacija (id)
 );
 
 CREATE TABLE klijent (
@@ -30,7 +29,7 @@ CREATE TABLE zanimanje (
     PRIMARY KEY (id),
 );
 
-CREATE TABLE poslovnica (
+CREATE TABLE lokacija (
     id SMALLINT NOT NULL AUTO_INCREMENT,
     drzava VARCHAR (47),
     grad VARCHAR (100),
@@ -50,10 +49,10 @@ CREATE TABLE zaposlenik (
     broj_mobitela VARCHAR (20) UNIQUE,
     email VARCHAR (320) UNIQUE,
     id_zanimanje SMALLINT NOT NULL, 
-    id_poslovnica SMALLINT NOT NULL,
+    id_lokacija SMALLINT NOT NULL,
     PRIMARY KEY (id),
     FOREIGN KEY (id_zanimanje) REFERENCES zanimanje (id),
-    FOREIGN KEY (id_poslovnica) REFERENCES poslovnica (id)
+    FOREIGN KEY (id_lokacija) REFERENCES lokacija (id)
 );
 
 CREATE TABLE kontakt_klijenta (
@@ -79,17 +78,19 @@ CREATE TABLE transakcija (
     iznos NUMERIC (12,2), 
     broj_racuna VARCHAR (7), 
     placeno NUMERIC (12,2),
+    id_klijent INT,
+    id_zaposlenik MEDIUMINT,
     PRIMARY KEY (id),
+    FOREIGN KEY (id_klijent) REFERENCES klijent (id),
+    FOREIGN KEY (id_zaposlenik) REFERENCES zaposlenik (id)
 );
 
 CREATE TABLE prihod_za_zaposlenika (
     id INT NOT NULL AUTO_INCREMENT,
     datum DATE,
-    id_zaposlenik MEDIUMINT, 
     id_transakcija_prihoda BIGINT NOT NULL,
     id_prihod TINYINT NOT NULL,
     PRIMARY KEY (id),
-    FOREIGN KEY (id_zaposlenik) REFERENCES zaposlenik (id) ON DELETE CASCADE,
     FOREIGN KEY (id_transakcija_prihoda) REFERENCES transakcija (id) ON DELETE CASCADE,
     FOREIGN KEY (id_prihod) REFERENCES prihod (id)
 );
@@ -123,14 +124,14 @@ CREATE TABLE poslovni_trosak (
 
 CREATE TABLE gotovinsko_placanje (
     id BIGINT NOT NULL AUTO_INCREMENT, 
-    PRIMARY KEY (id)
+    PRIMARY KEY (id) REFERENCES transakcija (id)
 );
 
 CREATE TABLE karticno_placanje (
     id BIGINT NOT NULL AUTO_INCREMENT, 
     tip_kartice VARCHAR (20), 
     id_pravna_osoba_banka MEDIUMINT, 
-    PRIMARY KEY (id),
+    PRIMARY KEY (id) REFERENCES transakcija (id),
     FOREIGN KEY (id_pravna_osoba_banka) REFERENCES pravna_osoba (id)
 );
 
@@ -138,7 +139,7 @@ CREATE TABLE kriptovalutno_placanje (
     id BIGINT NOT NULL AUTO_INCREMENT, 
     kriptovaluta VARCHAR (50) NOT NULL, 
     broj_kripto_novcanika VARCHAR (60) NOT NULL,
-    PRIMARY KEY (id)
+    PRIMARY KEY (id) REFERENCES transakcija (id)
 );
 
 CREATE TABLE kontakt_pravne_osobe (
@@ -169,8 +170,6 @@ CREATE TABLE vozilo (
 CREATE TABLE najam_vozila (
     id INT NOT NULL AUTO_INCREMENT, 
     id_transakcija_najam BIGINT NOT NULL, 
-    id_klijent_najam INT NOT NULL, 
-    id_zaposlenik_najam MEDIUMINT NOT NULL, 
     id_vozilo INT NOT NULL,
     datum_pocetka DATE, 
     datum_zavrsetka DATE, 
@@ -179,8 +178,6 @@ CREATE TABLE najam_vozila (
     zavrsna_kilometraza NUMERIC (10, 2), 
     PRIMARY KEY (id),
     FOREIGN KEY (id_transakcija_najam) REFERENCES transakcija (id) ON DELETE CASCADE,
-    FOREIGN KEY (id_klijent_najam) REFERENCES klijent (id),
-    FOREIGN KEY (id_zaposlenik_najam) REFERENCES zaposlenik (id),
     FOREIGN KEY (id_vozilo) REFERENCES vozilo (id)
 );
 
@@ -258,10 +255,8 @@ CREATE TABLE punjenje (
 CREATE TABLE odrzavanje (
     id INT NOT NULL AUTO_INCREMENT, 
     tip odrzavanja VARCHAR (100), 
-    id_zaposlenik MEDIUMINT, 
     id_transakcija_odrzavanje BIGINT NOT NULL,
     PRIMARY KEY (id),
-    FOREIGN KEY (id_zaposlenik) REFERENCES zaposlenik (id),
     FOREIGN KEY (id_transakcija_odrzavanje) REFERENCES transakcija (id) ON DELETE CASCADE
 );
 
