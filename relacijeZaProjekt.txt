@@ -122,12 +122,12 @@ CREATE TABLE poslovni_trosak (
 );
 
 CREATE TABLE gotovinsko_placanje (
-    id BIGINT NOT NULL AUTO_INCREMENT, 
+    id BIGINT NOT NULL, 
     PRIMARY KEY (id) REFERENCES transakcija (id)
 );
 
 CREATE TABLE karticno_placanje (
-    id BIGINT NOT NULL AUTO_INCREMENT, 
+    id BIGINT NOT NULL, 
     tip_kartice VARCHAR (20), 
     id_pravna_osoba_banka MEDIUMINT, 
     PRIMARY KEY (id) REFERENCES transakcija (id),
@@ -135,7 +135,7 @@ CREATE TABLE karticno_placanje (
 );
 
 CREATE TABLE kriptovalutno_placanje (
-    id BIGINT NOT NULL AUTO_INCREMENT, 
+    id BIGINT NOT NULL, 
     kriptovaluta VARCHAR (50) NOT NULL, 
     broj_kripto_novcanika VARCHAR (60) NOT NULL,
     PRIMARY KEY (id) REFERENCES transakcija (id)
@@ -193,7 +193,7 @@ CREATE TABLE serija (
 CREATE TABLE slika_vozila (
     id INT NOT NULL AUTO_INCREMENT, 
     id_vozilo MEDIUMINT NOT NULL, 
-    slika VARBINARY (MAX),
+    slika MEDIUMBLOB,
     pozicija VARCHAR (30),
     PRIMARY KEY (id),
     FOREIGN KEY (id_vozilo) REFERENCES vozilo (id) ON DELETE CASCADE
