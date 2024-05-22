@@ -2,6 +2,14 @@ CREATE DATABASE najam_vozila;
 
 USE najam_vozila;
 
+CREATE TABLE lokacija (
+    id SMALLINT NOT NULL AUTO_INCREMENT,
+    drzava VARCHAR (47),
+    grad VARCHAR (100),
+    adresa VARCHAR (100),
+    PRIMARY KEY (id)
+);
+
 CREATE TABLE pravna_osoba (
     id MEDIUMINT NOT NULL AUTO_INCREMENT, 
     ime VARCHAR (100), 
@@ -28,15 +36,6 @@ CREATE TABLE zanimanje (
     odjel VARCHAR (50) NOT NULL,
     PRIMARY KEY (id),
 );
-
-CREATE TABLE lokacija (
-    id SMALLINT NOT NULL AUTO_INCREMENT,
-    drzava VARCHAR (47),
-    grad VARCHAR (100),
-    adresa VARCHAR (100),
-    PRIMARY KEY (id)
-);
-
 
 CREATE TABLE zaposlenik (
     id MEDIUMINT NOT NULL AUTO_INCREMENT, 
