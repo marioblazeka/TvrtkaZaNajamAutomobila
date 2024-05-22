@@ -32,7 +32,7 @@ CREATE TABLE klijent (
 CREATE TABLE zanimanje (
     id SMALLINT NOT NULL AUTO_INCREMENT,
     naziv VARCHAR (50) NOT NULL UNIQUE,
-    opis_zanimanja TEXT NOT NULL UNIQUE,
+    opis_zanimanja TEXT (100) NOT NULL UNIQUE,
     odjel VARCHAR (50) NOT NULL,
     PRIMARY KEY (id),
 );
