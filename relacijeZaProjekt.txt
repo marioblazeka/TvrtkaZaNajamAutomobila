@@ -24,7 +24,7 @@ CREATE TABLE klijent (
     ime VARCHAR (30), 
     prezime VARCHAR (30), 
     identifikacijski_broj VARCHAR (13) NOT NULL UNIQUE,
-    id_pravna_osoba INT,
+    id_pravna_osoba MEDIUMINT,
     PRIMARY KEY (id),
     FOREIGN KEY (id_pravna_osoba) REFERENCES pravna_osoba (id)
 );
