@@ -229,7 +229,7 @@ CREATE TABLE osiguranje (
 
 CREATE TABLE steta (
     id INT NOT NULL AUTO_INCREMENT, 
-    tip VARCHAR(7),
+    tip VARCHAR(20),
     opis TEXT(200),
     PRIMARY KEY (id)
 );
@@ -314,7 +314,7 @@ CREATE TABLE vozilo_na_rezervaciji (
 CREATE TABLE crna_lista (
     id SMALLINT NOT NULL AUTO_INCREMENT,
     id_klijent INT NOT NULL,
-    razlog TEXT CHECK (LENGTH(razlog) > 30),
+    razlog TEXT CHECK (LENGTH(razlog) > 40),
     PRIMARY KEY (id),
     FOREIGN KEY (id_klijent) REFERENCES klijent (id) ON DELETE CASCADE
 );
