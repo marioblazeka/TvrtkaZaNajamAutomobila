@@ -109,7 +109,7 @@ CREATE TABLE popust_za_klijenta (
     id INT NOT NULL AUTO_INCREMENT,
     datum_primitka DATE, 
     datum_koristenja DATE,
-    status VARCHAR(10), 
+    status VARCHAR(50), 
     id_klijent INT NOT NULL,
     id_popust TINYINT NOT NULL,
     PRIMARY KEY (id),
@@ -177,7 +177,7 @@ CREATE TABLE vozilo (
     tip_punjenja VARCHAR(10),
     duljina DECIMAL(4,2),
     visina DECIMAL(3,2),
-    nosivost DECIMAL(5,2),
+    nosivost DECIMAL(7,2),
     id_serija SMALLINT,
     tip_vozila CHAR(1) CHECK (tip_vozila IN ('K', 'M', 'A')),
     PRIMARY KEY (id),
@@ -620,13 +620,13 @@ INSERT INTO popust (id, tip_popusta) VALUES -- Mirela
 (30, 'Posebna ponuda za firme: 30% popusta na korporativne rezervacije');
 
 INSERT INTO popust_za_klijenta (id, datum_primitka, datum_koristenja, status, id_klijent, id_popust) VALUES -- Mirela 
-(1, STR_TO_DATE('2024-05-01', '%Y-%m-%d'), STR_TO_DATE('2024-05-10', '%Y-%m-%d'), 'iskorišten', 1, 22),
+(1, STR_TO_DATE('2024-04-01', '%Y-%m-%d'), STR_TO_DATE('2024-04-10', '%Y-%m-%d'), 'iskorišten', 1, 22),
 (2, STR_TO_DATE('2024-05-02', '%Y-%m-%d'), NULL, 'aktivan', 2, 8),
 (3, STR_TO_DATE('2024-05-03', '%Y-%m-%d'), NULL, 'aktivan', 3, 4),
-(4, STR_TO_DATE('2024-05-04', '%Y-%m-%d'), STR_TO_DATE('2024-05-15', '%Y-%m-%d'), 'iskorišten', 4, 18),
+(4, STR_TO_DATE('2024-03-04', '%Y-%m-%d'), STR_TO_DATE('2024-03-15', '%Y-%m-%d'), 'iskorišten', 4, 18),
 (5, STR_TO_DATE('2024-05-05', '%Y-%m-%d'), NULL, 'aktivan', 5, 11),
-(6, STR_TO_DATE('2024-05-06', '%Y-%m-%d'), STR_TO_DATE('2024-05-20', '%Y-%m-%d'), 'iskorišten', 6, 24),
-(7, STR_TO_DATE('2024-05-07', '%Y-%m-%d'), STR_TO_DATE('2024-05-22', '%Y-%m-%d'), 'iskorišten', 7, 25),
+(6, STR_TO_DATE('2024-03-06', '%Y-%m-%d'), STR_TO_DATE('2024-03-20', '%Y-%m-%d'), 'iskorišten', 6, 24),
+(7, STR_TO_DATE('2024-04-07', '%Y-%m-%d'), STR_TO_DATE('2024-04-22', '%Y-%m-%d'), 'iskorišten', 7, 25),
 (8, STR_TO_DATE('2024-05-08', '%Y-%m-%d'), NULL, 'aktivan', 8, 17),
 (9, STR_TO_DATE('2024-05-09', '%Y-%m-%d'), NULL, 'aktivan', 9, 5),
 (10, STR_TO_DATE('2024-05-10', '%Y-%m-%d'), NULL, 'aktivan', 10, 6),
@@ -649,7 +649,7 @@ INSERT INTO popust_za_klijenta (id, datum_primitka, datum_koristenja, status, id
 (27, STR_TO_DATE('2024-05-27', '%Y-%m-%d'), NULL, 'aktivan', 27, 14),
 (28, STR_TO_DATE('2024-05-28', '%Y-%m-%d'), NULL, 'aktivan', 28, 16),
 (29, STR_TO_DATE('2024-05-29', '%Y-%m-%d'), NULL, 'aktivan', 29, 23),
-(30, STR_TO_DATE('2024-05-30', '%Y-%m-%d'), STR_TO_DATE('2024-06-10', '%Y-%m-%d'), 'iskorišten', 30, 29);
+(30, STR_TO_DATE('2024-04-30', '%Y-%m-%d'), STR_TO_DATE('2024-05-10', '%Y-%m-%d'), 'iskorišten', 30, 29);
 
 
 INSERT INTO poslovni_trosak (id, id_transakcija_poslovnog_troska, svrha, opis) VALUES -- Mirela
@@ -880,24 +880,24 @@ INSERT INTO vozilo (id, godina_proizvodnje, registracijska_tablica, tip_punjenja
 
 
 INSERT INTO najam_vozila (id, id_transakcija_najam, id_vozilo, datum_pocetka, datum_zavrsetka, status, pocetna_kilometraza, zavrsna_kilometraza) VALUES -- Mirela
-(1, 20, 17, STR_TO_DATE('2024-05-01', '%Y-%m-%d'), STR_TO_DATE('2024-05-10', '%Y-%m-%d'), 'Aktivan', 1000.00, 1470.00),
-(2, 3, 5, STR_TO_DATE('2024-05-02', '%Y-%m-%d'), STR_TO_DATE('2024-05-11', '%Y-%m-%d'), 'Aktivan', 980.00, 1100.00),
-(3, 12, 23, STR_TO_DATE('2024-05-03', '%Y-%m-%d'), STR_TO_DATE('2024-05-12', '%Y-%m-%d'), 'Aktivan', 980.00, 1300.00),
-(4, 27, 13, STR_TO_DATE('2024-05-04', '%Y-%m-%d'), STR_TO_DATE('2024-05-13', '%Y-%m-%d'), 'Neaktivan', 950.00, 1150.00),
+ (1, 20, 17, STR_TO_DATE('2024-03-01', '%Y-%m-%d'), STR_TO_DATE('2024-03-10', '%Y-%m-%d'), 'Neaktivan', 1000.00, 1470.00),
+(2, 3, 5, STR_TO_DATE('2024-04-02', '%Y-%m-%d'), STR_TO_DATE('2024-04-11', '%Y-%m-%d'), 'Neaktivan', 980.00, 1100.00),
+(3, 12, 23, STR_TO_DATE('2024-03-03', '%Y-%m-%d'), STR_TO_DATE('2024-03-12', '%Y-%m-%d'), 'Neaktivan', 980.00, 1300.00),
+(4, 27, 13, STR_TO_DATE('2024-03-04', '%Y-%m-%d'), STR_TO_DATE('2024-03-10', '%Y-%m-%d'), 'Neaktivan', 950.00, 1150.00),
 (5, 8, 29, STR_TO_DATE('2024-05-05', '%Y-%m-%d'), STR_TO_DATE('2024-05-14', '%Y-%m-%d'), 'Neaktivan', 1050.00, 1250.00),
-(6, 26, 30, STR_TO_DATE('2024-05-06', '%Y-%m-%d'), STR_TO_DATE('2024-05-15', '%Y-%m-%d'), 'Aktivan', 980.00, 1180.00),
-(7, 15, 21, STR_TO_DATE('2024-05-07', '%Y-%m-%d'), STR_TO_DATE('2024-05-16', '%Y-%m-%d'), 'Neaktivan', 1180.00, 1350.00),
-(8, 7, 8, STR_TO_DATE('2024-05-08', '%Y-%m-%d'), STR_TO_DATE('2024-05-17', '%Y-%m-%d'), 'Aktivan', 1020.00, 1200.00),
-(9, 18, 14, STR_TO_DATE('2024-05-09', '%Y-%m-%d'), STR_TO_DATE('2024-05-10', '%Y-%m-%d'), 'Aktivan', 1080.00, 1200.00),
-(10, 9, 28, STR_TO_DATE('2024-05-10', '%Y-%m-%d'), STR_TO_DATE('2024-05-12', '%Y-%m-%d'), 'Aktivan', 1005.00, 1585.00),
-(11, 11, 24, STR_TO_DATE('2024-05-11', '%Y-%m-%d'), STR_TO_DATE('2024-05-12', '%Y-%m-%d'), 'Aktivan', 950.00, 1150.00),
-(12, 28, 3, STR_TO_DATE('2024-05-12', '%Y-%m-%d'), STR_TO_DATE('2024-05-14', '%Y-%m-%d'), 'Aktivan', 970.00, 1170.00),
+(6, 26, 30, STR_TO_DATE('2024-05-06', '%Y-%m-%d'), STR_TO_DATE('2024-05-15', '%Y-%m-%d'), 'Neaktivan', 980.00, 1180.00),
+(7, 15, 21, STR_TO_DATE('2024-05-06', '%Y-%m-%d'), STR_TO_DATE('2024-05-16', '%Y-%m-%d'), 'Neaktivan', 1180.00, 1350.00),
+(8, 7, 8, STR_TO_DATE('2024-05-18', '%Y-%m-%d'), STR_TO_DATE('2024-05-24', '%Y-%m-%d'), 'Neaktivan', 1020.00, 1200.00),
+(9, 18, 14, STR_TO_DATE('2024-01-09', '%Y-%m-%d'), STR_TO_DATE('2024-01-15', '%Y-%m-%d'), 'Neaktivan', 1080.00, 1200.00),
+(10, 9, 28, STR_TO_DATE('2024-01-10', '%Y-%m-%d'), STR_TO_DATE('2024-01-12', '%Y-%m-%d'), 'Neaktivan', 1005.00, 1585.00),
+(11, 11, 24, STR_TO_DATE('2024-02-11', '%Y-%m-%d'), STR_TO_DATE('2024-02-12', '%Y-%m-%d'), 'Neaktivan', 950.00, 1150.00),
+(12, 28, 3, STR_TO_DATE('2024-04-12', '%Y-%m-%d'), STR_TO_DATE('2024-04-14', '%Y-%m-%d'), 'Neaktivan', 970.00, 1170.00),
 (13, 1, 4, STR_TO_DATE('2024-05-13', '%Y-%m-%d'), STR_TO_DATE('2024-05-22', '%Y-%m-%d'), 'Aktivan', 990.00, 1190.00),
-(14, 23, 15, STR_TO_DATE('2024-05-14', '%Y-%m-%d'), STR_TO_DATE('2024-05-16', '%Y-%m-%d'), 'Aktivan', 1025.00, 1225.00),
-(15, 5, 22, STR_TO_DATE('2024-05-15', '%Y-%m-%d'), STR_TO_DATE('2024-05-18', '%Y-%m-%d'), 'Aktivan', 975.00, 1175.00),
+(14, 23, 15, STR_TO_DATE('2024-05-14', '%Y-%m-%d'), STR_TO_DATE('2024-05-22', '%Y-%m-%d'), 'Aktivan', 1025.00, 1225.00),
+(15, 5, 22, STR_TO_DATE('2024-05-15', '%Y-%m-%d'), STR_TO_DATE('2024-05-23', '%Y-%m-%d'), 'Aktivan', 975.00, 1175.00),
 (16, 13, 22, STR_TO_DATE('2024-05-16', '%Y-%m-%d'), STR_TO_DATE('2024-05-20', '%Y-%m-%d'), 'Aktivan', 1030.00, 1330.00),
-(17, 19, 18, STR_TO_DATE('2024-05-17', '%Y-%m-%d'), STR_TO_DATE('2024-05-20', '%Y-%m-%d'), 'Neaktivan', 1015.00, 1215.00),
-(18, 6, 2, STR_TO_DATE('2024-05-18', '%Y-%m-%d'), STR_TO_DATE('2024-05-19', '%Y-%m-%d'), 'Aktivan', 980.00, 1180.00),
+(17, 19, 18, STR_TO_DATE('2024-05-17', '%Y-%m-%d'), STR_TO_DATE('2024-05-20', '%Y-%m-%d'), 'Aktivan', 1015.00, 1215.00),
+(18, 6, 2, STR_TO_DATE('2024-05-18', '%Y-%m-%d'), STR_TO_DATE('2024-05-20', '%Y-%m-%d'), 'Aktivan', 980.00, 1180.00),
 (19, 25, 22, STR_TO_DATE('2024-05-19', '%Y-%m-%d'), STR_TO_DATE('2024-05-28', '%Y-%m-%d'), 'Aktivan', 1100.00, 1300.00),
 (20, 22, 19, STR_TO_DATE('2024-05-20', '%Y-%m-%d'), STR_TO_DATE('2024-05-29', '%Y-%m-%d'), 'Aktivan', 960.00, 1110.00),
 (21, 4, 7, STR_TO_DATE('2024-05-21', '%Y-%m-%d'), STR_TO_DATE('2024-05-30', '%Y-%m-%d'), 'Aktivan', 1000.00, 1200.00),
@@ -906,10 +906,11 @@ INSERT INTO najam_vozila (id, id_transakcija_najam, id_vozilo, datum_pocetka, da
 (24, 10, 7, STR_TO_DATE('2024-05-24', '%Y-%m-%d'), STR_TO_DATE('2024-06-02', '%Y-%m-%d'), 'Aktivan', 1020.00, 1290.00),
 (25, 17, 1, STR_TO_DATE('2024-05-25', '%Y-%m-%d'), STR_TO_DATE('2024-06-03', '%Y-%m-%d'), 'Aktivan', 980.00, 1180.00),
 (26, 24, 11, STR_TO_DATE('2024-05-26', '%Y-%m-%d'), STR_TO_DATE('2024-06-04', '%Y-%m-%d'), 'Aktivan', 1005.00, 1205.00),
-(27, 2, 27, STR_TO_DATE('2024-05-27', '%Y-%m-%d'), STR_TO_DATE('2024-06-05', '%Y-%m-%d'), 'Neaktivan', 1050.00, 1250.00),
-(28, 29, 30, STR_TO_DATE('2024-05-28', '%Y-%m-%d'), STR_TO_DATE('2024-06-06', '%Y-%m-%d'), 'Neaktivan', 920.00, 1170.00),
+(27, 2, 27, STR_TO_DATE('2024-05-27', '%Y-%m-%d'), STR_TO_DATE('2024-06-05', '%Y-%m-%d'), 'Aktivan', 1050.00, 1250.00),
+(28, 29, 30, STR_TO_DATE('2024-05-28', '%Y-%m-%d'), STR_TO_DATE('2024-06-06', '%Y-%m-%d'), 'Aktivan', 920.00, 1170.00),
 (29, 21, 9, STR_TO_DATE('2024-05-29', '%Y-%m-%d'), STR_TO_DATE('2024-06-07', '%Y-%m-%d'), 'Aktivan', 1025.00, 1225.00),
 (30, 16, 6, STR_TO_DATE('2024-05-30', '%Y-%m-%d'), STR_TO_DATE('2024-06-08', '%Y-%m-%d'), 'Aktivan', 1000.00, 1150.00);
+
 
 INSERT INTO slika_vozila (id, id_vozilo, slika, pozicija) VALUES -- Marinela
 (1, 1, 'http://tvrtka-za-najam-vozila.com/slike/vozilo1.jpg', 'prednja'),
