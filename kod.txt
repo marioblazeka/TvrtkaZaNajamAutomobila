@@ -97,7 +97,7 @@ CREATE TABLE prihod_za_zaposlenika (
 
 CREATE TABLE popust (
     id TINYINT NOT NULL AUTO_INCREMENT, 
-    tip_popusta VARCHAR(40) NOT NULL,
+    tip_popusta VARCHAR(100) NOT NULL,
     PRIMARY KEY (id)
 );
 
