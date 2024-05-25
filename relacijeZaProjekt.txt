@@ -59,9 +59,9 @@ CREATE TABLE kontakt_klijenta (
     email VARCHAR (320) UNIQUE, 
     broj_mobitela VARCHAR (20) UNIQUE, 
     broj_telefona VARCHAR (20) UNIQUE,
-    id_klijent INT,
+    id_klijent INT NOT NULL,
     PRIMARY KEY (id),
-    FOREIGN KEY (id_klijent) REFERENCES klijent (id) ON DELETE CASCADE -- NOT NULL je viška
+    FOREIGN KEY (id_klijent) REFERENCES klijent (id) ON DELETE CASCADE
 );
 
 CREATE TABLE prihod (
@@ -136,7 +136,7 @@ referenciraju `id` iz tablice `transakcija` kao strani ključ bez korištenja `A
  */
  
 CREATE TABLE karticno_placanje (
-    id BIGINT NOT NULL AUTO_INCREMENT, 
+    id BIGINT NOT NULL, 
     tip_kartice VARCHAR (20), 
     id_pravna_osoba_banka MEDIUMINT, 
     PRIMARY KEY (id),
@@ -145,7 +145,7 @@ CREATE TABLE karticno_placanje (
 );
 
 CREATE TABLE kriptovalutno_placanje (
-    id BIGINT NOT NULL AUTO_INCREMENT, 
+    id BIGINT NOT NULL, 
     kriptovaluta VARCHAR (50) NOT NULL, 
     broj_kripto_novcanika VARCHAR (60) NOT NULL,
     PRIMARY KEY (id),
@@ -204,7 +204,7 @@ CREATE TABLE serija (
 CREATE TABLE slika_vozila (
     id INT NOT NULL AUTO_INCREMENT, 
     id_vozilo INT NOT NULL, 
-    slika MEDIUMBLOB, -- MySQL-u ne postoji tip podatka VARBINARY(MAX), MEDIUMBLOB je do 16 MB
+    slika MEDIUMBLOB,
     pozicija VARCHAR (30),
     PRIMARY KEY (id),
     FOREIGN KEY (id_vozilo) REFERENCES vozilo (id) ON DELETE CASCADE
