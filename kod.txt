@@ -5,7 +5,6 @@ CREATE DATABASE tvrtka_za_najam_vozila;
 USE tvrtka_za_najam_vozila;
 
 -- STVARANJE TABLICA
-
 CREATE TABLE lokacija (
     id SMALLINT NOT NULL AUTO_INCREMENT,
     drzava VARCHAR(47),
@@ -553,7 +552,13 @@ INSERT INTO transakcija (id, datum, iznos, broj_racuna, placeno, id_klijent, id_
 (27, STR_TO_DATE('2024-05-27', '%Y-%m-%d'), 85.50, 'ABC5678', 85.50, 27, 27),
 (28, STR_TO_DATE('2024-05-18', '%Y-%m-%d'), 200.25, 'DEF9012', 200.25, 28, 28),
 (29, STR_TO_DATE('2024-05-29', '%Y-%m-%d'), 150.75, 'GHI3456', 150.75, 29, 29),
-(30, STR_TO_DATE('2024-05-30', '%Y-%m-%d'), 220.00, 'JKL7890', 220.00, 30, 30);
+(30, STR_TO_DATE('2024-05-30', '%Y-%m-%d'), 220.00, 'JKL7890', 220.00, 30, 30),
+(31, STR_TO_DATE('2024-05-01', '%Y-%m-%d'), 250.00, 'ABP1034', 250.00, 12, 1),
+(32, STR_TO_DATE('2024-05-02', '%Y-%m-%d'), 300.50, 'DOF5608', 300.50, 12, 2), 
+(33, STR_TO_DATE('2024-05-03', '%Y-%m-%d'), 175.25, 'GHI9012', 175.25, 11, 3), 
+(34, STR_TO_DATE('2024-04-04', '%Y-%m-%d'), 220.00, 'JKZ3456', 220.00, 4, 4), 
+(35, STR_TO_DATE('2024-05-05', '%Y-%m-%d'), 180.75, 'MIO7590', 180.75, 9, 5); 
+
 
 INSERT INTO prihod_za_zaposlenika (id, datum, id_transakcija_prihoda, id_prihod) VALUES -- Vedrana
 (1, STR_TO_DATE('2024-01-01', '%Y-%m-%d'), 9, 5),
@@ -1369,8 +1374,8 @@ SELECT k.id AS id_klijent,
     CONCAT(k.ime, ' ', k.prezime) AS ime_prezime_klijenta,
     SUM(t.iznos) AS ukupni_iznos
 FROM klijent k
-INNER JOIN najam_vozila nv ON k.id = nv.id_klijent_najam
-INNER JOIN transakcija t ON nv.id_transakcija_najam = t.id
+INNER JOIN transakcija t ON k.id = t.id_klijent
+INNER JOIN najam_vozila nv ON t.id = nv.id_transakcija_najam
 INNER JOIN oprema_na_najmu onr ON nv.id = onr.id_najam_vozila
 GROUP BY k.id
 ORDER BY ukupni_iznos DESC
@@ -1405,12 +1410,14 @@ JOIN transakcija t ON pt.id_transakcija_poslovnog_troska = t.id
 WHERE (MONTH(t.datum) BETWEEN 1 AND 6) AND YEAR(t.datum) = 2024; 
 
 
--- 5.  PRONALAŽENJE NAJMA VOZILA PO DRŽAVI SJEDIŠTA PRAVNE OSOBE -- Mirela
-SELECT p.drzava_sjediste AS Drzava, COUNT(nv.id) AS Broj_Najmova
+-- 5. PRONALAŽENJE NAJMA VOZILA PO DRŽAVI SJEDIŠTA PRAVNE OSOBE -- Mirela
+SELECT l.drzava AS Drzava, COUNT(nv.id) AS Broj_Najmova
 FROM pravna_osoba p
 INNER JOIN klijent k ON p.id = k.id_pravna_osoba
-INNER JOIN najam_vozila nv ON k.id = nv.id_klijent_najam
-GROUP BY p.drzava_sjediste
+INNER JOIN transakcija t ON k.id = t.id_klijent
+INNER JOIN najam_vozila nv ON t.id = nv.id_transakcija_najam
+INNER JOIN lokacija l ON p.id_lokacija = l.id
+GROUP BY l.drzava
 ORDER BY Broj_Najmova DESC;
 
 
@@ -1418,10 +1425,27 @@ ORDER BY Broj_Najmova DESC;
 CREATE VIEW Ukupni_Troskovi_Najma_Zaposlenika AS
 SELECT z.id AS id_zaposlenik, z.ime, z.prezime, SUM(t.iznos) AS ukupni_troskovi
 FROM zaposlenik z
-INNER JOIN najam_vozila nv ON z.id = nv.id_zaposlenik_najam
-INNER JOIN transakcija t ON nv.id_transakcija_najam = t.id
+INNER JOIN transakcija t ON z.id = t.id_zaposlenik
+INNER JOIN najam_vozila nv ON t.id = nv.id_transakcija_najam
 GROUP BY z.id, z.ime, z.prezime;
 
 SELECT ime, prezime, ukupni_troskovi
 FROM Ukupni_Troskovi_Najma_Zaposlenika
 ORDER BY ukupni_troskovi DESC;
+
+
+-- 7.Prikaži prosječno trajanje najma vozila za svakog klijenta koji je unajmio vozilo u 2024. godini. 
+-- Uključi i broj najma i ukupni prihod za svakog klijenta u 2024. godini. -- Mirela
+SELECT klijent.ime, klijent.prezime, vozilo.registracijska_tablica,  serija.ime AS model_vozila,
+    AVG(DATEDIFF(najam_vozila.datum_zavrsetka, najam_vozila.datum_pocetka)) AS prosjecno_trajanje_najma,
+    COUNT(najam_vozila.id) AS broj_najma,
+    SUM(transakcija.iznos) AS ukupni_prihod
+FROM najam_vozila
+INNER JOIN  transakcija ON najam_vozila.id_transakcija_najam = transakcija.id
+INNER JOIN  klijent ON transakcija.id_klijent = klijent.id
+INNER JOIN vozilo ON najam_vozila.id_vozilo = vozilo.id
+INNER JOIN serija ON vozilo.id_serija = serija.id
+WHERE najam_vozila.status = 'Neaktivan' 
+    AND YEAR(najam_vozila.datum_pocetka) = 2024
+GROUP BY klijent.ime, klijent.prezime,  vozilo.registracijska_tablica, serija.ime
+ORDER BY klijent.prezime, klijent.ime;
