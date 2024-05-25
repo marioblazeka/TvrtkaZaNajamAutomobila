@@ -156,6 +156,16 @@ CREATE TABLE kontakt_pravne_osobe (
     FOREIGN KEY (id_pravna_osoba) REFERENCES pravna_osoba (id) ON DELETE CASCADE
 );
 
+CREATE TABLE serija (
+    id SMALLINT NOT NULL AUTO_INCREMENT, 
+    ime VARCHAR(100) NOT NULL UNIQUE, 
+    proizvodac VARCHAR(40), 
+    tip_mjenjaca VARCHAR(10), 
+    broj_sjedala TINYINT, 
+    broj_vrata TINYINT,
+    PRIMARY KEY (id)
+);
+
 CREATE TABLE vozilo (
     id INT NOT NULL AUTO_INCREMENT,
     godina_proizvodnje YEAR, 
@@ -182,16 +192,6 @@ CREATE TABLE najam_vozila (
     PRIMARY KEY (id),
     FOREIGN KEY (id_transakcija_najam) REFERENCES transakcija (id) ON DELETE CASCADE,
     FOREIGN KEY (id_vozilo) REFERENCES vozilo (id)
-);
-
-CREATE TABLE serija (
-    id SMALLINT NOT NULL AUTO_INCREMENT, 
-    ime VARCHAR(100) NOT NULL UNIQUE, 
-    proizvodac VARCHAR(40), 
-    tip_mjenjaca VARCHAR(10), 
-    broj_sjedala TINYINT, 
-    broj_vrata TINYINT,
-    PRIMARY KEY (id)
 );
 
 CREATE TABLE slika_vozila (
