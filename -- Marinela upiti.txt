@@ -1,0 +1,119 @@
+-- Marinela
+-- 1. Potrebno je pronaći sve klijente koji su na crnoj listi, razloge zašto su na crnoj listi, te koliko su puta ti klijenti unajmili vozilo. 
+SELECT k.id, k.ime, k.prezime, k.identifikacijski_broj, cl.razlog, COUNT(nv.id) AS broj_najmova
+FROM klijent k
+JOIN crna_lista cl ON k.id = cl.id_klijent
+LEFT JOIN transakcija t ON k.id = t.id_klijent
+LEFT JOIN najam_vozila nv ON t.id = nv.id_transakcija_najam
+GROUP BY k.id, k.ime, k.prezime, k.identifikacijski_broj, cl.razlog;
+
+
+-- 2. Prikaži ukupan broj iznajmljenih komada određene opreme po rezervaciji padajućim redoslijedom i prikaži o kojoj opremi se radi
+SELECT r.id AS rezervacija_id, o.naziv AS naziv_opreme, SUM(onr.kolicina) AS ukupan_broj_iznajmljene_opreme
+FROM rezervacija r
+JOIN oprema_na_rezervaciji onr ON r.id = onr.id_rezervacija
+JOIN oprema o ON onr.id_oprema = o.id
+GROUP BY r.id, o.naziv
+ORDER BY ukupan_broj_iznajmljene_opreme DESC;
+
+
+-- 3. Pregled ukupnog broja transakcija po vrsti plaćanja
+SELECT  'Gotovinsko placanje' AS vrsta_placanja, 
+    COUNT(gp.id) AS broj_transakcija
+FROM   gotovinsko_placanje gp
+JOIN   transakcija t ON gp.id = t.id
+UNION
+SELECT    'Karticno placanje' AS vrsta_placanja, 
+    COUNT(kp.id) AS broj_transakcija
+FROM   karticno_placanje kp
+JOIN  transakcija t ON kp.id = t.id
+UNION
+SELECT   'Kriptovalutno placanje' AS vrsta_placanja, 
+    COUNT(kp.id) AS broj_transakcija
+FROM   kriptovalutno_placanje kp
+JOIN   transakcija t ON kp.id = t.id;
+
+
+-- 4. Koja oprema se najrijeđe iznajmljivala, a koja najčešće u zadnjih godinu dana?
+-- (U svrhu nabavke veceg broja opreme koja se često iznajmljuje i moguće povlačenje opreme koja se rijetko iznajmljuje)
+SELECT 
+    oprema.naziv,
+    oprema.opis,
+    broj_iznajmljivanja
+FROM 
+    (SELECT 
+        oprema_na_najmu.id_oprema,
+        COUNT(*) AS broj_iznajmljivanja
+     FROM 
+        oprema_na_najmu
+     JOIN 
+        najam_vozila ON najam_vozila.id = oprema_na_najmu.id_najam_vozila
+     WHERE 
+        najam_vozila.datum_pocetka >= DATE_SUB(CURDATE(), INTERVAL 1 YEAR)
+     GROUP BY 
+        oprema_na_najmu.id_oprema
+    ) AS IznajmljivanjaUPosljednjojGodini
+JOIN 
+    oprema ON oprema.id = IznajmljivanjaUPosljednjojGodini.id_oprema
+ORDER BY 
+    broj_iznajmljivanja ASC
+LIMIT 1;
+
+SELECT 
+    oprema.naziv,
+    oprema.opis,
+    broj_iznajmljivanja
+FROM 
+    (SELECT 
+        oprema_na_najmu.id_oprema,
+        COUNT(*) AS broj_iznajmljivanja
+     FROM 
+        oprema_na_najmu
+     JOIN 
+        najam_vozila ON najam_vozila.id = oprema_na_najmu.id_najam_vozila
+     WHERE 
+        najam_vozila.datum_pocetka >= DATE_SUB(CURDATE(), INTERVAL 1 YEAR)
+     GROUP BY 
+        oprema_na_najmu.id_oprema
+    ) AS IznajmljivanjaUPosljednjojGodini
+JOIN 
+    oprema ON oprema.id = IznajmljivanjaUPosljednjojGodini.id_oprema
+ORDER BY 
+    broj_iznajmljivanja DESC
+LIMIT 1;
+
+
+-- 5. pregled svih naknada štete po vozilima, uključujući informacije o vozilu i ukupnu naknadu za svako vozilo.
+SELECT
+    vozilo.registracijska_tablica,
+    vozilo.tip_vozila,
+    SUM(transakcija.iznos) AS ukupna_naknada,
+    COUNT(naknada_stete.id) AS broj_naknada
+FROM
+    naknada_stete
+JOIN
+    transakcija ON transakcija.id = naknada_stete.id_transakcija
+JOIN
+    osiguranje ON osiguranje.id = naknada_stete.id_osiguranje
+JOIN
+    vozilo ON vozilo.id = osiguranje.id_vozilo
+GROUP BY
+    vozilo.id
+ORDER BY
+    ukupna_naknada DESC;
+
+
+-- 6. Pet klijenata s najvećim brojem rezervacija
+SELECT
+    k.ime AS ImeKlijenta,
+    k.prezime AS PrezimeKlijenta,
+    COUNT(r.id) AS BrojRezervacija
+FROM
+    klijent k
+LEFT JOIN
+    rezervacija r ON k.id = r.id_klijent
+GROUP BY
+    k.ime, k.prezime
+ORDER BY
+    BrojRezervacija DESC
+LIMIT 5;
