@@ -1546,7 +1546,49 @@ FROM (
 GROUP BY 
     tip_transakcije;
 
+-- UPIT 4
+-- Koliko imamo zaposlenika odjela "Prodaja" po gradu?
 
+SELECT 
+    l.grad,
+    COUNT(DISTINCT z.id) AS broj_zaposlenika_u_prodaji
+FROM 
+    lokacija l
+LEFT JOIN 
+    zaposlenik z ON l.id = z.id_lokacija
+JOIN
+    zanimanje zan ON z.id_zanimanje = zan.id
+WHERE
+    zan.odjel = 'Prodaja'
+GROUP BY 
+    l.grad;
+
+-- UPIT 5
+-- Prikazi tri vozila na kojima je najvise potroseno na sveukupno osiguranje unutar zadnje tri godine.
+
+SELECT v.id AS id_vozila, 
+       v.registracijska_tablica AS registracijska_tablica_vozila,
+       SUM(t.iznos) AS ukupno_potroseno_na_osiguranje
+FROM vozilo v
+JOIN osiguranje o ON v.id = o.id_vozilo
+JOIN transakcija t ON o.id_transakcija = t.id
+WHERE YEAR(t.datum) >= YEAR(CURDATE()) - 3
+GROUP BY v.id, v.registracijska_tablica
+ORDER BY ukupno_potroseno_na_osiguranje DESC
+LIMIT 3;
+
+-- UPIT 6
+-- Koliko je prosjecno, maksimalno i minimalno potroseno na godisnji servis unutar zadnjih pola godine?
+
+SELECT 
+	tip_odrzavanja,
+    AVG(iznos) AS prosjecno_potroseno,
+    MAX(iznos) AS maksimalno_potroseno,
+    MIN(iznos) AS minimalno_potroseno
+FROM odrzavanje
+JOIN transakcija ON odrzavanje.id_transakcija_odrzavanje = transakcija.id
+WHERE datum >= DATE_SUB(CURDATE(), INTERVAL 6 MONTH)
+  AND tip_odrzavanja = 'Godišnji servis';
 
 
 
