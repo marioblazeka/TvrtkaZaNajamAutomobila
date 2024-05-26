@@ -1387,7 +1387,164 @@ GROUP BY klijent.ime, klijent.prezime,  vozilo.registracijska_tablica, serija.im
 ORDER BY klijent.prezime, klijent.ime;
 
 
+-- SEBASTIJAN
+-- UPIT 1:
+-- Koji je klijent u posljednjih mjesec dana najvise potrosio na najam svakoga od vozila (kamion, motocikl i automobil zasebno), 
+-- a da pritom nije na crnoj listi ili iznajmljivao u ime pravne osobe, i koji je njegov kontakt? 
+-- Trazimo upit sa ciljem da nagradimo te klijente.
+(SELECT k.id, k.ime, k.prezime, ck.email, ck.broj_mobitela, ck.broj_telefona, SUM(t.iznos) AS ukupna_potrosnja, "Kamion" AS tip_vozila
+FROM klijent k
+JOIN transakcija t ON k.id = t.id_klijent
+JOIN najam_vozila nv ON t.id = nv.id_transakcija_najam
+JOIN vozilo v ON nv.id_vozilo = v.id
+LEFT JOIN crna_lista cl ON k.id = cl.id_klijent
+LEFT JOIN kontakt_klijenta ck ON k.id = ck.id_klijent
+WHERE v.tip_vozila = 'K'
+  AND t.datum BETWEEN DATE_SUB(CURDATE(), INTERVAL 1 MONTH) AND CURDATE()
+  AND cl.id_klijent IS NULL
+  AND k.id_pravna_osoba IS NULL
+GROUP BY k.id, k.ime, k.prezime, ck.email, ck.broj_mobitela, ck.broj_telefona
+ORDER BY ukupna_potrosnja DESC
+LIMIT 1)
 
+UNION
+
+(SELECT k.id, k.ime, k.prezime, ck.email, ck.broj_mobitela, ck.broj_telefona, SUM(t.iznos) AS ukupna_potrosnja, "Automobil" AS tip_vozila
+FROM klijent k
+JOIN transakcija t ON k.id = t.id_klijent
+JOIN najam_vozila nv ON t.id = nv.id_transakcija_najam
+JOIN vozilo v ON nv.id_vozilo = v.id
+LEFT JOIN crna_lista cl ON k.id = cl.id_klijent
+LEFT JOIN kontakt_klijenta ck ON k.id = ck.id_klijent
+WHERE v.tip_vozila = 'A'
+  AND t.datum BETWEEN DATE_SUB(CURDATE(), INTERVAL 1 MONTH) AND CURDATE()
+  AND cl.id_klijent IS NULL
+  AND k.id_pravna_osoba IS NULL
+GROUP BY k.id, k.ime, k.prezime, ck.email, ck.broj_mobitela, ck.broj_telefona
+ORDER BY ukupna_potrosnja DESC
+LIMIT 1)
+
+UNION
+
+(SELECT k.id, k.ime, k.prezime, ck.email, ck.broj_mobitela, ck.broj_telefona, SUM(t.iznos) AS ukupna_potrosnja, "Motocikl" AS tip_vozila
+FROM klijent k
+JOIN transakcija t ON k.id = t.id_klijent
+JOIN najam_vozila nv ON t.id = nv.id_transakcija_najam
+JOIN vozilo v ON nv.id_vozilo = v.id
+LEFT JOIN crna_lista cl ON k.id = cl.id_klijent
+LEFT JOIN kontakt_klijenta ck ON k.id = ck.id_klijent
+WHERE v.tip_vozila = 'M'
+  AND t.datum BETWEEN DATE_SUB(CURDATE(), INTERVAL 1 MONTH) AND CURDATE()
+  AND cl.id_klijent IS NULL
+  AND k.id_pravna_osoba IS NULL
+GROUP BY k.id, k.ime, k.prezime, ck.email, ck.broj_mobitela, ck.broj_telefona
+ORDER BY ukupna_potrosnja DESC
+LIMIT 1);
+
+-- UPIT 2:
+-- Koja se serija automobila najvise rezervirala unutar zadnjih godinu dana?
+-- Istrazujemo popularnost automobila
+SELECT 
+    serija.id AS id_serija_automobila,
+    serija.ime AS ime_serije,
+    serija.proizvodac AS proizvodac_serije,
+    COUNT(vozilo_na_rezervaciji.id) AS broj_rezervacija
+FROM 
+    vozilo
+JOIN 
+    vozilo_na_rezervaciji ON vozilo.id = vozilo_na_rezervaciji.id_vozilo
+JOIN 
+    serija ON vozilo.id_serija = serija.id
+JOIN 
+    rezervacija ON vozilo_na_rezervaciji.id_rezervacija = rezervacija.id
+WHERE 
+    vozilo.tip_vozila = 'A'
+    AND rezervacija.datum_rezervacije BETWEEN DATE_SUB(CURDATE(), INTERVAL 1 YEAR) AND CURDATE()
+GROUP BY 
+    serija.id
+ORDER BY 
+    broj_rezervacija DESC
+LIMIT 1;
+
+-- UPIT 3:
+-- Prikazi  sve transakcije (troskove) po tipu transakcije od pocetka 2024 do danas
+
+SELECT 
+    tip_transakcije,
+    SUM(iznos) AS ukupno_potroseno
+FROM (
+    SELECT 
+        'Najam vozila' AS tip_transakcije,
+        SUM(iznos) AS iznos
+    FROM 
+        transakcija
+    JOIN 
+        najam_vozila ON transakcija.id = najam_vozila.id_transakcija_najam
+    WHERE 
+        YEAR(transakcija.datum) = 2024
+    UNION ALL
+    SELECT 
+        'Održavanje' AS tip_transakcije,
+        SUM(iznos) AS iznos
+    FROM 
+        transakcija
+    JOIN 
+        odrzavanje ON transakcija.id = odrzavanje.id_transakcija_odrzavanje
+    WHERE 
+        YEAR(transakcija.datum) = 2024
+    UNION ALL
+    SELECT 
+        'Prihod za zaposlenika' AS tip_transakcije,
+        SUM(iznos) AS iznos
+    FROM 
+        prihod_za_zaposlenika
+    JOIN 
+        transakcija ON prihod_za_zaposlenika.id_transakcija_prihoda = transakcija.id
+    WHERE 
+        YEAR(transakcija.datum) = 2024
+    UNION ALL
+    SELECT 
+        'Punjenje' AS tip_transakcije,
+        SUM(iznos) AS iznos
+    FROM 
+        punjenje
+    JOIN 
+        transakcija ON punjenje.id_transakcija_punjenje = transakcija.id
+    WHERE 
+        YEAR(transakcija.datum) = 2024
+    UNION ALL
+    SELECT 
+        'Naknada stete' AS tip_transakcije,
+        SUM(iznos) AS iznos
+    FROM 
+        naknada_stete
+    JOIN 
+        transakcija ON naknada_stete.id_transakcija = transakcija.id
+    WHERE 
+        YEAR(transakcija.datum) = 2024
+    UNION ALL
+    SELECT 
+        'Osiguranje' AS tip_transakcije,
+        SUM(iznos) AS iznos
+    FROM 
+        osiguranje
+    JOIN 
+        transakcija ON osiguranje.id_transakcija = transakcija.id
+    WHERE 
+        YEAR(transakcija.datum) = 2024
+    UNION ALL
+    SELECT 
+        'Poslovni trosak' AS tip_transakcije,
+        SUM(iznos) AS iznos
+    FROM 
+        poslovni_trosak
+    JOIN 
+        transakcija ON poslovni_trosak.id_transakcija_poslovnog_troska = transakcija.id
+    WHERE 
+        YEAR(transakcija.datum) = 2024
+) AS transakcije
+GROUP BY 
+    tip_transakcije;
 
 
 
