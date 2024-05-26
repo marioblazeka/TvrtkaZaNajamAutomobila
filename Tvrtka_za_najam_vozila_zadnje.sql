@@ -1468,7 +1468,6 @@ LIMIT 1;
 
 -- UPIT 3:
 -- Prikazi  sve transakcije (troskove) po tipu transakcije od pocetka 2024 do danas
-
 SELECT 
     tip_transakcije,
     SUM(iznos) AS ukupno_potroseno
@@ -1548,7 +1547,6 @@ GROUP BY
 
 -- UPIT 4
 -- Koliko imamo zaposlenika odjela "Prodaja" po gradu?
-
 SELECT 
     l.grad,
     COUNT(DISTINCT z.id) AS broj_zaposlenika_u_prodaji
@@ -1565,7 +1563,6 @@ GROUP BY
 
 -- UPIT 5
 -- Prikazi tri vozila na kojima je najvise potroseno na sveukupno osiguranje unutar zadnje tri godine.
-
 SELECT v.id AS id_vozila, 
        v.registracijska_tablica AS registracijska_tablica_vozila,
        SUM(t.iznos) AS ukupno_potroseno_na_osiguranje
@@ -1579,7 +1576,6 @@ LIMIT 3;
 
 -- UPIT 6
 -- Koliko je prosjecno, maksimalno i minimalno potroseno na godisnji servis unutar zadnjih pola godine?
-
 SELECT 
 	tip_odrzavanja,
     AVG(iznos) AS prosjecno_potroseno,
@@ -1590,5 +1586,35 @@ JOIN transakcija ON odrzavanje.id_transakcija_odrzavanje = transakcija.id
 WHERE datum >= DATE_SUB(CURDATE(), INTERVAL 6 MONTH)
   AND tip_odrzavanja = 'Godišnji servis';
 
+-- UPIT 7
+-- Koliko je ukupno potroseno putem karticnih placanja, po tipu kartice, unutar zadnje dvije godine?
+SELECT 
+    tip_kartice,
+    SUM(t.iznos) AS ukupno_potroseno
+FROM 
+    karticno_placanje kp
+JOIN 
+    transakcija t ON kp.id = t.id
+WHERE 
+    t.datum >= DATE_SUB(CURDATE(), INTERVAL 2 YEAR)
+GROUP BY 
+    tip_kartice
+	ORDER BY 
+    ukupno_potroseno DESC;
 
+-- UPIT 8
+-- Koliko je ukupno potroseno na punjenje, sortirano po tipu punjenja, unutar zadnjih godinu dana?	
+SELECT 
+    tip_punjenja,
+    SUM(t.iznos) AS ukupno_potroseno
+FROM 
+    punjenje p
+JOIN 
+    transakcija t ON p.id_transakcija_punjenje = t.id
+WHERE 
+    t.datum >= DATE_SUB(CURDATE(), INTERVAL 1 YEAR)
+GROUP BY 
+    tip_punjenja
+ORDER BY 
+    ukupno_potroseno DESC;
 
