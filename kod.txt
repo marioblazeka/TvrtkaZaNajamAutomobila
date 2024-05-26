@@ -455,7 +455,7 @@ INSERT INTO zaposlenik (id, id_nadredeni_zaposlenik, ime, prezime, identifikacij
                         (34, 3, "Mate", "Krišto", 93747719883, "M", 1988881453, 333354125, "mate.kristo14@gmail.com", 7, 2),
                         (35, 3, "Klaudija", "Raspudić", 47877093423, "F", 191348910, 222214789, "klaudija.raspudic.posl@gmail.com", 8, 2);
 
-INSERT INTO kontakt_klijenta (id, email, broj_mobitela, broj_telefona, id_klijent) VALUES -- Mirela
+INSERT INTO kontakt_klijenta (id, email, broj_mobitela, broj_telefona, id_klijent) VALUES -- Mirela, Sebastijan
 (1, 'luka.novosel@gmail.com', '0987654321', '0912345678', 1),
 (2, 'ana.kovacevic@gmail.com', '0912345679', '0923456789', 2),
 (3, 'ivan.horvat@gmail.com', '0923456790', '0934567890', 3),
@@ -466,26 +466,26 @@ INSERT INTO kontakt_klijenta (id, email, broj_mobitela, broj_telefona, id_klijen
 (8, 'kristina.juric@gmail.com', '0978901345', '0989012345', 8),
 (9, 'filip.kovacic@gmail.com', '0989012456', '0990123456', 9),
 (10, 'ivana.simunovic@gmail.com', '0990123567', '0913456789', 10),
-(11, 'ivo.horvat@gmail.com', '0912345670', '0924567890', 1),
-(12, 'maja.petrovic@gmail.com', '0923456781', '0935678901', 2),
-(13, 'lucija.novak@gmail.com', '0934567892', '0946789012', 3),
-(14, 'matej.simic@gmail.com', '0945678903', '0957890123', 4),
-(15, 'ana.kovac@gmail.com', '0956789014', '0968901234', 5),
-(16, 'petar.ilic@gmail.com', '0967890125', '0979012345', 6),
-(17, 'lana.horvat@gmail.com', '0978901236', '0980123456', 7),
-(18, 'ivan.pavic@gmail.com', '0989012347', '0991234567', 8),
-(19, 'marija.kovacevic@gmail.com', '0990123458', '0912345671', 9),
-(20, 'ante.marinovic@gmail.com', '0912345672', '0923456782', 10),
-(21, 'lucija.peric@gmail.com', '0923456783', '0934567893', 1),
-(22, 'matija.knezevic@gmail.com', '0934567894', '0945678904', 2),
-(23, 'luka.horvat@gmail.com', '0945678905', '0956789015', 3),
-(24, 'iva.pavic@gmail.com', '0956789016', '0967890126', 4),
-(25, 'petra.juric@gmail.com', '0967890127', '0978901237', 5),
-(26, 'ivan.kovacic@gmail.com', '0978901238', '0989012348', 6),
-(27, 'martina.marinovic@gmail.com', '0989012349', '0990123459', 7),
-(28, 'nikola.horvat@gmail.com', '0990123460', '0912345673', 8),
-(29, 'elena.novak@gmail.com', '0912345674', '0923456784', 9),
-(30, 'roko.knezevic@gmail.com', '0923456785', '0934567895', 10);
+(11, 'ivo.horvat@gmail.com', '0912345670', '0924567890', 11),
+(12, 'maja.petrovic@gmail.com', '0923456781', '0935678901', 12),
+(13, 'lucija.novak@gmail.com', '0934567892', '0946789012', 13),
+(14, 'matej.simic@gmail.com', '0945678903', '0957890123', 14),
+(15, 'ana.kovac@gmail.com', '0956789014', '0968901234', 15),
+(16, 'petar.ilic@gmail.com', '0967890125', '0979012345', 16),
+(17, 'lana.horvat@gmail.com', '0978901236', '0980123456', 17),
+(18, 'ivan.pavic@gmail.com', '0989012347', '0991234567', 18),
+(19, 'marija.kovacevic@gmail.com', '0990123458', '0912345671', 19),
+(20, 'ante.marinovic@gmail.com', '0912345672', '0923456782', 20),
+(21, 'lucija.peric@gmail.com', '0923456783', '0934567893', 21),
+(22, 'matija.knezevic@gmail.com', '0934567894', '0945678904', 22),
+(23, 'luka.horvat@gmail.com', '0945678905', '0956789015', 23),
+(24, 'iva.pavic@gmail.com', '0956789016', '0967890126', 24),
+(25, 'petra.juric@gmail.com', '0967890127', '0978901237', 25),
+(26, 'ivan.kovacic@gmail.com', '0978901238', '0989012348', 26),
+(27, 'martina.marinovic@gmail.com', '0989012349', '0990123459', 27),
+(28, 'nikola.horvat@gmail.com', '0990123460', '0912345673', 28),
+(29, 'elena.novak@gmail.com', '0912345674', '0923456784', 29),
+(30, 'roko.knezevic@gmail.com', '0923456785', '0934567895', 30);
 
 
 
